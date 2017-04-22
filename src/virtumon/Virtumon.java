@@ -58,10 +58,6 @@ public abstract class Virtumon {
 		return maxHp;
 	}
 	
-	public void test() {
-		System.out.println("delete this");
-	}
-	
 	/**
 	 * fungsi untk mendapatkan damage
 	 * @return damage
