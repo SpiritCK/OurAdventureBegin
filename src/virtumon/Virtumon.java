@@ -33,7 +33,9 @@ public abstract class Virtumon {
 		ordinat = _ordinat;
 		level = _level;
 	}
-	
+
+	public int getLevel() {return level;}
+
 	/**
 	 * fungsi untuk mendapatkan nama virtumon
 	 * @return nama

@@ -17,6 +17,14 @@ public class Player {
 	 */
 	final String name;
 	/**
+	 * attack dari pemain.
+	 */
+	int attack;
+	/**
+	 * defense dari pemain.
+	 */
+	int defense;
+	/**
 	 * nilai maksimum HP pemain.
 	 */
 	int maxHp;
@@ -47,8 +55,8 @@ public class Player {
 	
 	/**
 	 * constructor.
-	 * @param nama pemain.
-	 * @param maksimum nilai HP pemain.
+	 * @param inName pemain.
+	 * @param inMaxHp nilai HP pemain.
 	 */
 	public Player(String inName, int inMaxHp) throws IOException {
 		name = inName;
@@ -57,6 +65,9 @@ public class Player {
 		level = 1;
 		maxExp = 5 + 5*level;
 		exp = 0;
+		attack = 100;
+		defense = 70;
+		caught = new Vector<Virtumon>();
 
 		BufferedImage x = ImageIO.read(new File("playerdown.png"));
 		sprite = x;
@@ -70,6 +81,8 @@ public class Player {
 	public String getName(){
 		return name;
 	}
+	public int getAttack() { return attack; }
+	public int getDefense() { return defense; }
 	/**
 	 * mengembalikkan nilai maksimum HP pemain.
 	 * @return
@@ -172,9 +185,9 @@ public class Player {
 	}
 	/**
 	 * menambah virtumon ke dalam vector virtumon yang sudah ditangkap.
-	 * @param Virtumon yang ingin dimasukkan.
+	 * @param V yang ingin dimasukkan.
 	 */
-	public void AddVirtumon(Virtumon V){
+	public void addVirtumon(Virtumon V){
 		caught.add(V);
 	}
 	
