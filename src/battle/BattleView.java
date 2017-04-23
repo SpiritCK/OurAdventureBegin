@@ -3,10 +3,55 @@ package battle;
 import javax.swing.*;
 import player.Player;
 import virtumon.*;
-
+/**
+ * Kelas view untuk mengatur tampilan battle scene.
+ */
 public class BattleView extends JFrame{
-    public JLabel playerhp,playerhp2,virtumonhp,virtumonhp2,playertxt,virtumontxt;
-    public JButton button1, button2, button3, button4;
+    /**
+     * label judul "HP" player.
+     */
+    JLabel playerhp;
+    /**
+     * label jumlah hp player.
+     */
+    JLabel playerhp2;
+    /**
+     * label "HP" virtumon.
+     */
+    JLabel virtumonhp;
+    /**
+     * label jumlah hp player.
+     */
+    JLabel virtumonhp2;
+    /**
+     * label text keterangan player.
+     */
+    JLabel playertxt;
+    /**
+     * label text keterangan virtumon.
+     */
+    JLabel  virtumontxt;
+    /**
+     * tombol normal attack.
+     */
+    JButton button1;
+    /**
+     * tombol special attack.
+     */
+    JButton button2;
+    /**
+     * tombol defense.
+     */
+    JButton button3;
+    /**
+     * tombol catch virtumon.
+     */
+    JButton button4;
+    /**
+     * Constructor.
+     * @param p pemain.
+     * @param v virtumon yang dilawan.
+     */
     public BattleView(Player p, Virtumon v){
         playerhp = new JLabel("HP : ");
         playerhp.setBounds(50,50,100,30);

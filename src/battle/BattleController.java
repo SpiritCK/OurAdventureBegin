@@ -5,16 +5,44 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import player.Player;
 import virtumon.*;
-
+/**
+ * Kelas controller dari battle scene.
+ */
 public class BattleController implements ActionListener{
+    /**
+     * player.
+     */
     private Player player;
+    /**
+     * enemy.
+     */
     private Virtumon enemy;
+    /**
+     * battle model.
+     */
     private Battle btl;
+    /**
+     * Limit special.
+     */
     private int specialLimit;
+    /**
+     * battle view.
+     */
     private BattleView view;
+    /**
+     * timer.
+     */
     private Timer timer;
+    /**
+     * lock mutex.
+     */
     private boolean locked = false;
-
+    /**
+     * Constructor.
+     * @param _view battle view.
+     * @param _player player.
+     * @param _enemy musuh.
+     */
     public BattleController(BattleView _view, Player _player, Virtumon _enemy){
         view = _view;
         player = _player;
@@ -22,7 +50,11 @@ public class BattleController implements ActionListener{
         btl = new Battle(view,player,enemy);
         specialLimit = 3;
     }
-
+    /**
+     * Mengatur interaksi terhadap input user pada button.
+     * @param e ActionEvent.
+     */
+    @Override
     public void actionPerformed(ActionEvent e) {
         int action = Integer.parseInt(e.getActionCommand());
         if (action == 1) {
