@@ -100,7 +100,7 @@ public class BattleView extends JPanel{
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(virtumonhp, c);
         
-        playersprite = new JLabel("SpriteP");
+        playersprite = new JLabel(new ImageIcon(p.getBattleSprite().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
         c.gridx = 0;
         c.gridy = 2;
         c.ipadx = 0;
