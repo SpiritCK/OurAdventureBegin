@@ -77,6 +77,7 @@ public class BattleView extends JPanel{
         playername = new JLabel(p.getName());
         c.gridx = 0;
         c.gridy = 0;
+        c.ipady = 20;
         c.gridwidth = 2;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         add(playername, c);
@@ -89,6 +90,7 @@ public class BattleView extends JPanel{
         playerhp = new HealthBar(p);
         c.gridx = 0;
         c.gridy = 1;
+        c.ipady = 5;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.fill = GridBagConstraints.HORIZONTAL;
         add(playerhp, c);
