@@ -55,6 +55,10 @@ public class Player extends Entity {
 	 */
 	Image[] sprite;
 	/**
+	 * gambar sprite pemain dalam pertarungan
+	 */
+	Image battlesprite;
+	/**
 	 * Virtumon yang sudah ditangkap
 	 */
 	Vector<Virtumon> caught;
@@ -88,6 +92,9 @@ public class Player extends Entity {
 		sprite[2] = x[2];
 		x[3] = ImageIO.read(new File("playerup.png"));
 		sprite[3] = x[3];
+		
+		BufferedImage y = ImageIO.read(new File("playerbattle.png"));
+		battlesprite = y;
 	}
 	
 	//Getter
@@ -172,6 +179,9 @@ public class Player extends Entity {
 	 */
 	public Image getSprite() {
 		return sprite[state];
+	}
+	public Image getBattleSprite() {
+		return battlesprite;
 	}
 	/**
 	 * Mengembalikan vector virtumon yang sudah ditangkap/
