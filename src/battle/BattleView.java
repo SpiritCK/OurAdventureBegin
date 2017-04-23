@@ -89,21 +89,24 @@ public class BattleView extends JPanel{
         playerhp = new HealthBar(p);
         c.gridx = 0;
         c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.fill = GridBagConstraints.HORIZONTAL;
         add(playerhp, c);
         
         virtumonhp = new HealthBar(v);
         c.gridx = 2;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(virtumonhp, c);
         
         playersprite = new JLabel("SpriteP");
-        playersprite.setSize(240, 240);
         c.gridx = 0;
         c.gridy = 2;
+        c.ipadx = 0;
+        c.ipady = 4;
+        c.anchor = GridBagConstraints.CENTER;
         add(playersprite, c);
         
-        virtumonsprite = new JLabel("SpriteV");
-        virtumonsprite.setSize(240, 240);
+        virtumonsprite = new JLabel(new ImageIcon(v.render().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
         c.gridx = 2;
         c.gridy = 2;
         add(virtumonsprite, c);
@@ -122,6 +125,7 @@ public class BattleView extends JPanel{
         button2.setActionCommand("2");
         button2.addActionListener(control);
         c.gridy = 4;
+        c.ipady = 0;
         add(button2, c);
         
         button3 = new JButton("Defend");
@@ -141,6 +145,7 @@ public class BattleView extends JPanel{
         battlelog.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(battlelog);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(360, 50));
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 3;
@@ -166,7 +171,5 @@ public class BattleView extends JPanel{
         super.paintComponent(g);
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
-        playerhp.repaint();
-        virtumonhp.repaint();
     }
 }

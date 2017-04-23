@@ -91,7 +91,6 @@ public class Battle {
                 catching();
             }
         }
-        view.repaint();
     }
     /**
      * Menyerang player dengan delay tertentu.
@@ -186,6 +185,8 @@ public class Battle {
         if (player.getHp() <= 0) {
             lose();
         }
+        view.playerhp.repaint();
+        view.virtumonhp.repaint();
     }
     /**
      * Menyerang enemy dengan menghitung damage dan mengurangi hp enemy.
@@ -206,6 +207,8 @@ public class Battle {
         if (enemy.getHp() <= 0) {
             won();
         }
+        view.playerhp.repaint();
+        view.virtumonhp.repaint();
     }
     /**
      * Menampilkan pesan menang.

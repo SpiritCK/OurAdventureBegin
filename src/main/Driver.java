@@ -14,21 +14,22 @@ public class Driver {
     final static String MAP = "Map GUI";
     final static String BATTLE = "Battle GUI";
     int GUIstate;
-    static JPanel cards;
-    static Map map;
-    static JFrame frame;
+    JPanel cards;
+    Map map;
+    JFrame frame;
     
 	public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                prepareGUI();
-                startCheck();
+            	Driver d = new Driver();
+                d.prepareGUI();
+                d.startCheck();
             }
         });
     }
 	
-	public static void startCheck() {
+	public void startCheck() {
 		new Thread(new Runnable() {
 
 			@Override
@@ -46,6 +47,7 @@ public class Driver {
 			        CardLayout cl = (CardLayout)(cards.getLayout());
 			        cl.show(cards, BATTLE);
 			        frame.pack();
+			        //ini diganti dengan ngecek apakah battle beres
 			        while(true);
 				}
 			}
@@ -53,7 +55,7 @@ public class Driver {
         }).start();
 	}
 	
-	public static void prepareGUI() {
+	public void prepareGUI() {
 		//Create and set up the window.
 		frame = new JFrame("Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
