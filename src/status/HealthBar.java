@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
-import player.Player;
+import entity.Entity;
 
 /**
  * Panel view untuk kelas Status.
@@ -17,12 +17,12 @@ public class HealthBar extends JProgressBar {
 	/**
 	 * data member model kelas Player.
 	 */
-	Player model;
+	Entity model;
 
 	/**
 	 * constructor.
 	 */
-	public HealthBar(Player p) {
+	public HealthBar(Entity p) {
 		super();
 		model = p;
 		setUI(new BasicProgressBarUI() {

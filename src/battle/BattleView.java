@@ -1,36 +1,48 @@
 package battle;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+
 import javax.swing.*;
-import player.Player;
-import virtumon.*;
+
+import entity.*;
+import status.HealthBar;
 /**
  * Kelas view untuk mengatur tampilan battle scene.
  */
-public class BattleView extends JFrame{
+public class BattleView extends JPanel{
     /**
-     * label judul "HP" player.
-     */
-    JLabel playerhp;
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+    static final String newline = System.getProperty("line.separator");
     /**
-     * label jumlah hp player.
+     * label nama player.
      */
-    JLabel playerhp2;
+    JLabel playername;
     /**
-     * label "HP" virtumon.
+     * label nama virtumon.
      */
-    JLabel virtumonhp;
+    JLabel virtumonname;
     /**
-     * label jumlah hp player.
+     * HP bar player.
      */
-    JLabel virtumonhp2;
+    HealthBar playerhp;
     /**
-     * label text keterangan player.
+     * HP bar virtumon.
      */
-    JLabel playertxt;
+    HealthBar virtumonhp;
     /**
-     * label text keterangan virtumon.
+     * sprite player.
      */
-    JLabel  virtumontxt;
+    JLabel playersprite;
+    /**
+     * sprite virtumon.
+     */
+    JLabel  virtumonsprite;
     /**
      * tombol normal attack.
      */
@@ -48,47 +60,113 @@ public class BattleView extends JFrame{
      */
     JButton button4;
     /**
+     * tombol catch virtumon.
+     */
+    JTextArea battlelog;
+    /**
      * Constructor.
      * @param p pemain.
      * @param v virtumon yang dilawan.
      */
     public BattleView(Player p, Virtumon v){
-        playerhp = new JLabel("HP : ");
-        playerhp.setBounds(50,50,100,30);
-        playerhp2 = new JLabel("100");
-        playerhp2.setBounds(75,50,75,30);
-        playertxt = new JLabel();
-        playertxt.setBounds(50,60,200,200);
+    	super();
+        setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+    	
+		
+        playername = new JLabel(p.getName());
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(playername, c);
+        
+        virtumonname = new JLabel(v.getNama());
+        c.gridx = 2;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        add(virtumonname, c);
+        
+        playerhp = new HealthBar(p);
+        c.gridx = 0;
+        c.gridy = 1;
+        c.anchor = GridBagConstraints.CENTER;
+        add(playerhp, c);
+        
+        virtumonhp = new HealthBar(v);
+        c.gridx = 2;
+        add(virtumonhp, c);
+        
+        playersprite = new JLabel("SpriteP");
+        playersprite.setSize(240, 240);
+        c.gridx = 0;
+        c.gridy = 2;
+        add(playersprite, c);
+        
+        virtumonsprite = new JLabel("SpriteV");
+        virtumonsprite.setSize(240, 240);
+        c.gridx = 2;
+        c.gridy = 2;
+        add(virtumonsprite, c);
 
-        virtumonhp = new JLabel("HP : ");
-        virtumonhp.setBounds(200,50,100,30);
-        virtumonhp2 = new JLabel("100");
-        virtumonhp2.setBounds(225,50,75,30);
-        virtumontxt = new JLabel();
-        virtumontxt.setBounds(200,60,200,200);
-
-        BattleController c = new BattleController(this,p,v);
+        BattleController control = new BattleController(this,p,v);
         button1 = new JButton("Normal Atk");
-        button1.setBounds(50,250,120,30);
         button1.setActionCommand("1");
-        button1.addActionListener(c);
+        button1.addActionListener(control);
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        add(button1, c);
+        
         button2 = new JButton("Special Atk");
-        button2.setBounds(200,250,120,30);
         button2.setActionCommand("2");
-        button2.addActionListener(c);
+        button2.addActionListener(control);
+        c.gridy = 4;
+        add(button2, c);
+        
         button3 = new JButton("Defend");
-        button3.setBounds(50,300,120,30);
         button3.setActionCommand("3");
-        button3.addActionListener(c);
+        button3.addActionListener(control);
+        c.gridy = 5;
+        add(button3, c);
+        
         button4 = new JButton("Catch");
-        button4.setBounds(200,300,120,30);
         button4.setActionCommand("4");
-        button4.addActionListener(c);
-        add(playerhp);add(playerhp2);add(virtumonhp);add(virtumonhp2);add(button1);add(button2);
-        add(playertxt);add(virtumontxt);add(button3); add(button4);
-        setSize(400,400);
-        setLayout(null);
+        button4.addActionListener(control);
+        c.gridy = 6;
+        add(button4, c);
+        
+        battlelog = new JTextArea();
+        battlelog.setEditable(false);
+        battlelog.setWrapStyleWord(true);
+        JScrollPane scrollPane = new JScrollPane(battlelog);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        c.gridx = 1;
+        c.gridy = 3;
+        c.gridwidth = 3;
+        c.gridheight = 4;
+        c.fill = GridBagConstraints.BOTH;
+        add(scrollPane, c);
+        
         setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+    
+    public void addLog(String text) {
+        battlelog.append(text + newline);
+        battlelog.setCaretPosition(battlelog.getDocument().getLength());
+    }
+    
+
+    @Override
+    /**
+     * Menampilkan isi panel.
+     */
+    public void paintComponent(Graphics g) {
+        // Important to call super class method
+        super.paintComponent(g);
+        // Clear the board
+        g.clearRect(0, 0, getWidth(), getHeight());
+        playerhp.repaint();
+        virtumonhp.repaint();
     }
 }

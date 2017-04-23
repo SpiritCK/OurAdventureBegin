@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
-import player.Player;
+import entity.Player;
 
 /**
  * Panel view untuk kelas Status.
@@ -55,6 +55,5 @@ public class ExpBar extends JProgressBar {
 		super.paintComponent(g);
 		setValue(model.getExp());
 		setMaximum(model.getMaxExp());
-		System.out.println("ok");
 	}
 }

@@ -3,7 +3,7 @@ package status;
 import java.awt.*;
 import javax.swing.*;
 
-import player.Player;
+import entity.Player;
 
 public class Status extends JPanel {
 
@@ -24,6 +24,10 @@ public class Status extends JPanel {
 	HealthBar hp2;
 	JLabel xp1;
 	ExpBar xp2;
+	JLabel atk1;
+	JLabel atk2;
+	JLabel def1;
+	JLabel def2;
 
 	/**
 	 * constructor.
@@ -90,6 +94,29 @@ public class Status extends JPanel {
 		c.anchor = GridBagConstraints.LINE_START;
 		add(xp2,c);
 		
+		atk1 = new JLabel("ATK: ");
+		c.gridx = 0;
+		c.gridy = 5;
+		c.ipady = 10;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		add(atk1,c);
+		
+		atk2 = new JLabel(new Integer(model.getAttack()).toString());
+		c.gridx = 1;
+		c.gridy = 5;
+		add(atk2,c);
+		
+		def1 = new JLabel("DEF: ");
+		c.gridx = 0;
+		c.gridy = 6;
+		add(def1,c);
+		
+		def2 = new JLabel(new Integer(model.getDefense()).toString());
+		c.gridx = 1;
+		c.gridy = 6;
+		add(def2,c);
+		
 		new StatusController(this);
 	}
 
@@ -101,6 +128,9 @@ public class Status extends JPanel {
 		super.paintComponent(g);
 		hp2.repaint();
 		xp2.repaint();
+		sprite.setIcon(new ImageIcon(model.getSprite().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
 		level2.setText(new Integer(model.getlevel()).toString());
+		atk2.setText(new Integer(model.getAttack()).toString());
+		def2.setText(new Integer(model.getDefense()).toString());
 	}
 }

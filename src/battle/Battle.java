@@ -1,8 +1,9 @@
 package battle;
 
-import player.Player;
-import virtumon.*;
 import javax.swing.Timer;
+
+import entity.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -75,13 +76,11 @@ public class Battle {
             }
             else
             if (commandp == 2 && commande == 3) {
-                view.playertxt.setText("Attack blocked!");
-                view.virtumontxt.setText("Blocking !");
+                view.addLog("Your attack was blocked");
             }
             else
             if (commandp == 3 && commande == 2) {
-                view.virtumontxt.setText("Attack blocked!");
-                view.playertxt.setText("Blocking !");
+                view.addLog("You blocked an attack");
             }
             else
             if (commandp == 4 && (commande == 1 || commande == 2)) {
@@ -91,8 +90,8 @@ public class Battle {
             else {  //commandp == 4 && commande == 3
                 catching();
             }
-
         }
+        view.repaint();
     }
     /**
      * Menyerang player dengan delay tertentu.
@@ -138,13 +137,13 @@ public class Battle {
     private void shoutVirtumon(int attackNumber) {
         switch (attackNumber) {
             case 1:
-                view.virtumontxt.setText("<html>Virtumon menyerang<br>dengan normal attack !</html>");
+                view.addLog("Virtumon attack with normal attack");
                 break;
             case 2:
-                view.virtumontxt.setText("<html>Virtumon menyerang<br>dengan special attack !</html>");
+                view.addLog("Virtumon attack with special attack");
                 break;
             case 3:
-                view.virtumontxt.setText("<html>Virtumon bertahan!!</html>");
+                view.addLog("Virtumon set up a defense position");
                 break;
         }
     }
@@ -155,16 +154,16 @@ public class Battle {
     private void shoutPlayer(int attackNumber) {
         switch (attackNumber) {
             case 1:
-                view.playertxt.setText("<html>Player menyerang<br>dengan normal attack !</html>");
+                view.addLog("You attack with normal attack");
                 break;
             case 2:
-                view.playertxt.setText("<html>Player menyerang<br>dengan special attack !</html>");
+                view.addLog("You attack with special attack");
                 break;
             case 3:
-                view.playertxt.setText("<html>Player bertahan!!</html>");
+                view.addLog("You det up a defense position");
                 break;
             case 4:
-                view.playertxt.setText("<html>Player melempar VirtuBall !!</html>");
+                view.addLog("You throw Virtuball");
                 break;
         }
     }
@@ -183,13 +182,9 @@ public class Battle {
                 break;
         }
         player.incHp((-1) * dmg);
-        view.playerhp2.setText(Integer.toString(player.getHp()));
+        view.addLog("Enemy successfully attack!, HP - " + Integer.toString(dmg));
         if (player.getHp() <= 0) {
             lose();
-        }
-        else {
-            view.playertxt.setText("HP - " + Integer.toString(dmg));
-            view.virtumontxt.setText("Attack success!");
         }
     }
     /**
@@ -206,29 +201,23 @@ public class Battle {
                 dmg = (int) (Math.round((player.getlevel() * 0.4 + 2) * 250 * enemy.getDamage() / (player.getDefense() * 50) + 2));
                 break;
         }
-        enemy.decreaseHp(dmg);
-        view.virtumonhp2.setText(Integer.toString(enemy.getHp()));
+        enemy.incHp(-1*dmg);
+        view.addLog("Attack success!, enemy HP - " + Integer.toString(dmg));
         if (enemy.getHp() <= 0) {
             won();
-        }
-        else {
-            view.virtumontxt.setText("HP - " + Integer.toString(dmg));
-            view.playertxt.setText("Attack success!");
         }
     }
     /**
      * Menampilkan pesan menang.
      */
     private void won() {
-        view.playertxt.setText("WIN !!");
-        view.virtumontxt.setText("Dead");
+        view.addLog("Congratulation! you win");
     }
     /**
      * Menampilkan pesan kalah.
      */
     private void lose() {
-        view.playertxt.setText("Dead");
-        view.virtumontxt.setText("Win");
+        view.addLog("Aww, you're dead");
     }
     /**
      * Menagtur mekanisme penangkapan pokemon.
@@ -242,13 +231,11 @@ public class Battle {
             public void actionPerformed(ActionEvent x) {
                 if (hasilRandom <= percentageOfSuccess) {      //berhasil menangkap pokemon
                     player.addVirtumon(enemy);
-                    view.playertxt.setText("Berhasil menangkap Pokemon !!");
-                    view.virtumontxt.setText("Tertangkap !!");
+                    view.addLog("GOTCHA!! Virtumon was caught");
                     //Keluar dari battle
                 }
                 else {		//gagal menngkap virtumon
-                    view.playertxt.setText("Gagal menangkap Pokemon !!");
-                    view.virtumontxt.setText("Berhasil menghindar !!!");
+                    view.addLog("Virtumon got away");
                 }
             }
         });

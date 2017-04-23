@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import entity.*;
+
 /**
  * kelas model untuk map.
  */
@@ -28,6 +30,7 @@ public class MapModel{
 	 * matriks untuk menyimpan objek-objek yang ada dalam map
 	 */
     final Cell[][] terrainGrid;
+    Virtumon test;
 
     /**
      * constructor
@@ -41,6 +44,7 @@ public class MapModel{
     	GRID_WIDTH = in.nextInt();
     	GRID_HEIGHT = in.nextInt();
         terrainGrid = new Cell[NUM_ROWS][NUM_COLS];
+        test = new Belra(4,2);
         
         // Randomize the terrain
         String c;

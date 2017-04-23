@@ -2,6 +2,9 @@ package map;
 
 import javax.swing.*;
 
+import entity.Player;
+import entity.Virtumon;
+
 import java.awt.*;
 import java.io.*;
 /**
@@ -18,13 +21,13 @@ public class Map extends JPanel {
 	 */
 	MapModel model;
 	/**
-	 * Posisi absis (kolom) player.
+	 * data member MapController.
 	 */
-	int posX;
+	MapController control;
 	/**
-	 * posisi ordinat (baris) player.
+	 * data member player.
 	 */
-	int posY;
+	Player player;
 	/**
 	 * lebar map yang dirender.
 	 */
@@ -39,13 +42,15 @@ public class Map extends JPanel {
 	 * @param file yang berisi map.
 	 * @throws IOException jika file gagal dibuka.
 	 */
-    public Map(File filename) throws IOException {
+    public Map(File filename, Player p) throws IOException {
     	super();
     	model = new MapModel(filename);
-		posX = 0;
-		posY = 2;
+    	player = p;
+		p.setX(0);
+		p.setY(2);
+		p.setState(2);
 		setPreferredSize(new Dimension(model.GRID_WIDTH*renderWidth, model.GRID_HEIGHT*renderHeight));
-		new MapController(this);
+		control = new MapController(this);
     }
     
     @Override
@@ -63,11 +68,11 @@ public class Map extends JPanel {
 
         int startY = 0;
     	int startX = 0;
-        if (posY >= renderHeight/2 && posY < (model.NUM_ROWS - renderHeight/2)) {
-        	startY = posY - renderHeight/2;
+        if (player.getY() >= renderHeight/2 && player.getY() < (model.NUM_ROWS - renderHeight/2)) {
+        	startY = player.getY() - renderHeight/2;
         }
         else {
-        	if (posY < renderHeight/2) {
+        	if (player.getY() < renderHeight/2) {
         		startY = 0;
         	}
         	else {
@@ -75,11 +80,11 @@ public class Map extends JPanel {
         	}
         }
         for (int i = startY; i < startY + renderHeight; i++) {
-            if (posX >= renderWidth/2 && posX < (model.NUM_COLS - renderWidth/2)) {
-            	startX = posX - renderWidth/2;
+            if (player.getX() >= renderWidth/2 && player.getX() < (model.NUM_COLS - renderWidth/2)) {
+            	startX = player.getX() - renderWidth/2;
             }
             else {
-            	if (posX < renderWidth/2) {
+            	if (player.getX() < renderWidth/2) {
             		startX = 0;
             	}
             	else {
@@ -94,7 +99,10 @@ public class Map extends JPanel {
                 g.drawImage(terrainImage, x, y, this);
             }
         }
-        g.fillRect((posX - startX)*rectWidth, (posY - startY)*rectHeight, rectWidth, rectHeight);
+        Image p = player.getSprite().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
+        g.drawImage(p, (player.getX() - startX)*rectWidth, (player.getY() - startY)*rectHeight, this);
+        p = model.test.render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
+        g.drawImage(p, (model.test.getX() - startX)*rectWidth, (model.test.getY() - startY)*rectHeight, this);
     }
     
     /**
@@ -102,45 +110,71 @@ public class Map extends JPanel {
      * @param inc true jika bergerak ke kanan. false jika bergerak ke kiri
      */
     public void IncrementX(boolean inc) {
-		System.out.println("X "+inc+" "+posX+" "+model.NUM_COLS);
-		if (inc && (posX < model.NUM_COLS-1)) {
-	    	String classXp = model.terrainGrid[posY][posX+1].getClass().getSimpleName();
+		System.out.println("X "+inc+" "+player.getX()+" "+model.NUM_COLS);
+		if (inc && (player.getX() < model.NUM_COLS-1)) {
+	    	String classXp = model.terrainGrid[player.getY()][player.getX()+1].getClass().getSimpleName();
 	    	System.out.println("inc "+classXp);
 	    	if (classXp.equals("Road") || classXp.equals("Door") || classXp.equals("Finish")) {
-	    		posX++;
+	    		player.setX(player.getX()+1);
 				System.out.println("addX");
 	    	}
 		}
-		else if (!inc && (posX > 0)) {
-	    	String classXm = model.terrainGrid[posY][posX-1].getClass().getSimpleName();
+		else if (!inc && (player.getX() > 0)) {
+	    	String classXm = model.terrainGrid[player.getY()][player.getX()-1].getClass().getSimpleName();
 	    	System.out.println("dec "+classXm);
 	    	if (classXm.equals("Road") || classXm.equals("Door") || classXm.equals("Finish")) {
-	    		posX--;
+	    		player.setX(player.getX()-1);
 				System.out.println("decX");
 	    	}
 		}
+		if (inc) {
+			player.setState(2);
+		}
+		else {
+			player.setState(1);
+		}
+		//isBattle();
 	}
 	/**
      * mengubah posisi ordinat (baris) pemain.
      * @param inc true jika bergerak ke bawah. false jika bergerak ke atas.
      */
 	public void IncrementY(boolean inc) {
-		System.out.println("Y "+inc+" "+posY+" "+model.NUM_ROWS);
-		if (inc && (posY < model.NUM_ROWS-1)) {
-	    	String classYp = model.terrainGrid[posY+1][posX].getClass().getSimpleName();
+		System.out.println("Y "+inc+" "+player.getY()+" "+model.NUM_ROWS);
+		if (inc && (player.getY() < model.NUM_ROWS-1)) {
+	    	String classYp = model.terrainGrid[player.getY()+1][player.getX()].getClass().getSimpleName();
 	    	System.out.println("inc "+classYp);
 	    	if (classYp.equals("Road") || classYp.equals("Door") || classYp.equals("Finish")) {
-				posY++;
+	    		player.setY(player.getY()+1);
 				System.out.println("addY");
 			}
 		}
-		else if (!inc && (posY > 0)) {
-	    	String classYm = model.terrainGrid[posY-1][posX].getClass().getSimpleName();
+		else if (!inc && (player.getY() > 0)) {
+	    	String classYm = model.terrainGrid[player.getY()-1][player.getX()].getClass().getSimpleName();
 	    	System.out.println("dec "+classYm);
 	    	if (classYm.equals("Road") || classYm.equals("Door") || classYm.equals("Finish")) {
-	    		posY--;
+	    		player.setY(player.getY()-1);
 				System.out.println("decY");
 	    	}
 		}
+		if (inc) {
+			player.setState(0);
+		}
+		else {
+			player.setState(3);
+		}
+		//isBattle();
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public Virtumon getVirtumon() {
+		return model.test;
+	}
+	
+	public boolean isBattle() {
+		return (player.getX() == model.test.getX() && player.getY() == model.test.getY());
 	}
 }

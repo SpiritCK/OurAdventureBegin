@@ -3,8 +3,8 @@ package battle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import player.Player;
-import virtumon.*;
+
+import entity.*;
 /**
  * Kelas controller dari battle scene.
  */
@@ -64,6 +64,7 @@ public class BattleController implements ActionListener{
                     public void actionPerformed(ActionEvent x) {
                         int damage = (int) Math.round((player.getlevel() * 0.4 + 2) * 100 * player.getAttack() / (enemy.getDefense() * 50) + 2);
                         btl.start(1);
+                        view.repaint();
                     }
                 });
                 timer.setRepeats(false);
@@ -81,6 +82,7 @@ public class BattleController implements ActionListener{
                             specialLimit--;
                             int damage = (int) Math.round((player.getlevel() * 0.4 + 2) * 200 * player.getAttack() / (enemy.getDefense() * 50) + 2);
                             btl.start(2);
+                            view.repaint();
                         }
                     });
                     timer.setInitialDelay(1000);
@@ -97,6 +99,7 @@ public class BattleController implements ActionListener{
                 timer = new Timer(1000, new ActionListener() {
                     public void actionPerformed(ActionEvent x) {
                         btl.start(3);
+                        view.repaint();
                     }
                 });
                 timer.setInitialDelay(1000);
@@ -111,6 +114,7 @@ public class BattleController implements ActionListener{
                 timer = new Timer(1000, new ActionListener() {
                     public void actionPerformed(ActionEvent x) {
                         btl.start(4);
+                        view.repaint();
                     }
                 });
                 timer.setInitialDelay(1000);
@@ -119,6 +123,6 @@ public class BattleController implements ActionListener{
             }
             locked = false;
         }
-
+        view.repaint();
     }
 }
