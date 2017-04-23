@@ -100,10 +100,9 @@ public class BattleView extends JPanel{
         c.anchor = GridBagConstraints.FIRST_LINE_END;
         add(virtumonhp, c);
         
-        playersprite = new JLabel("SpriteP");
+        playersprite = new JLabel(new ImageIcon(p.getBattleSprite().getScaledInstance(200, 200, Image.SCALE_DEFAULT)));
         c.gridx = 0;
         c.gridy = 2;
-        c.ipadx = 0;
         c.ipady = 4;
         c.anchor = GridBagConstraints.CENTER;
         add(playersprite, c);
@@ -147,7 +146,7 @@ public class BattleView extends JPanel{
         battlelog.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(battlelog);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setPreferredSize(new Dimension(360, 50));
+        scrollPane.setPreferredSize(new Dimension(50, 50));
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 3;
