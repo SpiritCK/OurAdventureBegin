@@ -39,12 +39,19 @@ public class MapModel{
      */
     public MapModel(File filename) throws IOException {
     	Scanner in = new Scanner(filename);
+    	System.out.println("    1");
     	NUM_ROWS = in.nextInt();
+    	System.out.println("    2");
     	NUM_COLS = in.nextInt();
+    	System.out.println("    3");
     	GRID_WIDTH = in.nextInt();
+    	System.out.println("    4");
     	GRID_HEIGHT = in.nextInt();
+    	System.out.println("    5");
         terrainGrid = new Cell[NUM_ROWS][NUM_COLS];
+    	System.out.println("    6");
         test = new Belra(4,2);
+    	System.out.println("    7");
         
         // Randomize the terrain
         String c;

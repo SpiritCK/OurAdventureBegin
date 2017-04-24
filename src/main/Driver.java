@@ -1,7 +1,12 @@
 package main;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import battle.BattleView;
@@ -10,7 +15,8 @@ import map.*;
 import status.*;
 
 public class Driver {
-	
+
+    final static String MAIN = "Main Menu GUI";
     final static String MAP = "Map GUI";
     final static String BATTLE = "Battle GUI";
     int GUIstate;
@@ -75,6 +81,11 @@ public class Driver {
 		File filename = new File("map.txt");
 		GridBagConstraints c = new GridBagConstraints();
 		try {
+			//setup main menu
+			JPanel mainMenu = new MainMenu();
+			cards.add(mainMenu, MAIN);
+			
+			//setup map
 			JPanel mapPane = new JPanel();
 			mapPane.setLayout(new GridBagLayout());
 			Player player = new Player("Solid",100);
@@ -83,6 +94,8 @@ public class Driver {
 			System.out.println("hihihi");
 			c.gridx = 0;
 			c.gridy = 0;
+			c.ipadx = 0;
+			c.ipady = 0;
 			mapPane.add(map, c);
 			Status status = new Status(player);
 			c.gridx = 1;

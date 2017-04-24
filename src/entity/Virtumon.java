@@ -47,6 +47,7 @@ public abstract class Virtumon extends Entity {
 		absis = _absis;
 		ordinat = _ordinat;
 		level = _level;
+    	System.out.println("    wkwk");
 		if (!rendered) {
 			rendered = true;
 			BufferedImage a = ImageIO.read(new File("belra.png"));
@@ -63,12 +64,13 @@ public abstract class Virtumon extends Entity {
 			moltcuno = f;
 			BufferedImage g = ImageIO.read(new File("oddchu.png"));
 			oddchu = g;
-			BufferedImage h = ImageIO.read(new File("pindril.png"));
+			BufferedImage h = ImageIO.read(new File("pindrill.png"));
 			pindrill = h;
 			BufferedImage i = ImageIO.read(new File("ratung.png"));
 			ratung = i;
 			BufferedImage j = ImageIO.read(new File("weehorn.png"));
 			weehorn = j;
+	    	System.out.println("    wkwk1");
 		}
 	}
 
