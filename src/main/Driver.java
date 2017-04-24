@@ -35,20 +35,28 @@ public class Driver {
 			@Override
 			public void run() {
 				while(fail == 0) {
-					while(!map.isBattle()) {
+					while(map.getBattle()==-1) {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
-					JPanel battlePane = new BattleView(map.getPlayer(), map.getVirtumon());
+					JPanel battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
 					cards.add(battlePane, BATTLE);
 			        CardLayout cl = (CardLayout)(cards.getLayout());
 			        cl.show(cards, BATTLE);
 			        frame.pack();
 			        //ini diganti dengan ngecek apakah battle beres
-			        while(true);
+			        while(map.getBattle()!=-1) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+			        // TODO remove battle card
+			        cl.show(cards, MAP);
 				}
 			}
         	

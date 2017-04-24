@@ -33,10 +33,9 @@ public class MapModel{
 	 */
     final Cell[][] terrainGrid;
     
-    Virtumon test;
     
-    Vector<Virtumon> arrayOfVirtumonAtas;
-    Vector<Virtumon> arrayOfVirtumonBawah;
+    
+    Vector<Virtumon> arrayOfVirtumon;
 
     private boolean isExist(int x, int y, Vector<Virtumon> tabel){
     	boolean found = false;
@@ -60,43 +59,66 @@ public class MapModel{
     	int y;
     	int penentuJenisVirtumon;
     	
-    	arrayOfVirtumonAtas = new Vector<Virtumon>();
+    	arrayOfVirtumon = new Vector<Virtumon>(); 
     	
-    	for(int i = 0; i<120; i++){
+    	for(int i = 0; i<500; i++){
 	    	Random rand = new Random();
 	    	x = rand.nextInt(399);
-	    	y = rand.nextInt(200);
+	    	y = rand.nextInt(399);
 	    	
-	    	while(!((x!=0 || y!=0) && terrainGrid[y][x].getClass().getSimpleName().equals("Road") && !isExist(x, y, arrayOfVirtumonAtas))){
+	    	while(!((x!=0 || y!=0) && terrainGrid[y][x].getClass().getSimpleName().equals("Road") && !isExist(x, y, arrayOfVirtumon))){
 	    		x = rand.nextInt(399);
-	    		y = rand.nextInt(200);
+	    		y = rand.nextInt(399);
 	    	}
-	    	
-	    	penentuJenisVirtumon = rand.nextInt(6) + 1;
-	    	
-	    	switch (penentuJenisVirtumon){
-	    	case 1 :
-	    		Belra b = new Belra(x, y);
-	    		arrayOfVirtumonAtas.add(b);
-	    		break;
-	    	case 2 :
-	    		Charwak c = new Charwak(x, y);
-	    		arrayOfVirtumonAtas.add(c);
-	    		break;
-	    	case 3 :
-	    		Dugsect d = new Dugsect(x, y);
-	    		arrayOfVirtumonAtas.add(d);
-	    		break;
-	    	case 4 :
-	    		Kingbat k = new Kingbat(x, y);
-	    		arrayOfVirtumonAtas.add(k);
-	    		break;
-	    	case 5 :
-	    		Oddchu o = new Oddchu(x, y);
-	    		arrayOfVirtumonAtas.add(o);
-	    	default :
-	    		Ratung r = new Ratung(x, y);
-	    		arrayOfVirtumonAtas.add(r);
+	    	if(y<=200){
+		    	penentuJenisVirtumon = rand.nextInt(6) + 1;
+		    	
+		    	switch (penentuJenisVirtumon){
+		    	case 1 :
+		    		Belra b = new Belra(x, y);
+		    		arrayOfVirtumon.add(b);
+		    		break;
+		    	case 2 :
+		    		Charwak c = new Charwak(x, y);
+		    		arrayOfVirtumon.add(c);
+		    		break;
+		    	case 3 :
+		    		Dugsect d = new Dugsect(x, y);
+		    		arrayOfVirtumon.add(d);
+		    		break;
+		    	case 4 :
+		    		Kingbat k = new Kingbat(x, y);
+		    		arrayOfVirtumon.add(k);
+		    		break;
+		    	case 5 :
+		    		Oddchu o = new Oddchu(x, y);
+		    		arrayOfVirtumon.add(o);
+		    		break;
+		    	default :
+		    		Ratung r = new Ratung(x, y);
+		    		arrayOfVirtumon.add(r);
+		    	}
+	    	}
+	    	else{
+	    		penentuJenisVirtumon = rand.nextInt(4) + 1;
+	    		
+	    		switch(penentuJenisVirtumon){
+	    		case 1 :
+	    			Kadaix k = new Kadaix(x, y);
+	    			arrayOfVirtumon.add(k);
+	    			break;
+	    		case 2 :
+	    			Moltcuno m = new Moltcuno(x, y);
+	    			arrayOfVirtumon.add(m);
+	    			break;
+	    		case 3 :
+	    			Pindrill p = new Pindrill(x, y);
+	    			arrayOfVirtumon.add(p);
+	    			break;
+	    		default :
+	    			Weehorn w = new Weehorn(x, y);
+	    			arrayOfVirtumon.add(w);
+	    		}
 	    	}
     	}
     }
@@ -113,7 +135,6 @@ public class MapModel{
     	GRID_WIDTH = in.nextInt();
     	GRID_HEIGHT = in.nextInt();
         terrainGrid = new Cell[NUM_ROWS][NUM_COLS];
-        test = new Pindrill(2,3);
         
         // Randomize the terrain
         String c;

@@ -55,6 +55,7 @@ public class Map extends JPanel {
 		p.setState(2);
 		setPreferredSize(new Dimension(model.GRID_WIDTH*renderWidth, model.GRID_HEIGHT*renderHeight));
 		control = new MapController(this);
+		battleStatus = -1;
     }
     
     @Override
@@ -103,12 +104,12 @@ public class Map extends JPanel {
                 g.drawImage(terrainImage, x, y, this);
             }
         }
-        for (int i = 0; i < model.arrayOfVirtumonAtas.size(); i++) {
-        	int tempX = model.arrayOfVirtumonAtas.get(i).getX();
-        	int tempY = model.arrayOfVirtumonAtas.get(i).getY();
-        	if (model.arrayOfVirtumonAtas.get(i).isAlive() && tempX >=startX && tempX < startX + renderWidth && tempY>=startY && tempY<startY+renderHeight ) {
-        		Image p = model.arrayOfVirtumonAtas.get(i).render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
-                g.drawImage(p, (model.arrayOfVirtumonAtas.get(i).getX() - startX)*rectWidth, (model.arrayOfVirtumonAtas.get(i).getY() - startY)*rectHeight, this);
+        for (int i = 0; i < model.arrayOfVirtumon.size(); i++) {
+        	int tempX = model.arrayOfVirtumon.get(i).getX();
+        	int tempY = model.arrayOfVirtumon.get(i).getY();
+        	if (model.arrayOfVirtumon.get(i).isAlive() && tempX >=startX && tempX < startX + renderWidth && tempY>=startY && tempY<startY+renderHeight ) {
+        		Image p = model.arrayOfVirtumon.get(i).render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
+                g.drawImage(p, (model.arrayOfVirtumon.get(i).getX() - startX)*rectWidth, (model.arrayOfVirtumon.get(i).getY() - startY)*rectHeight, this);
         	}
         }
         Image p = player.getSprite().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
@@ -141,9 +142,17 @@ public class Map extends JPanel {
 		}
 		if (inc) {
 			player.setState(2);
+			getBattle(player.getX(), player.getY());
+			if (battleStatus != -1) {
+				player.setX(player.getX()-1);
+			}
 		}
 		else {
 			player.setState(1);
+			getBattle(player.getX(), player.getY());
+			if (battleStatus != -1) {
+				player.setX(player.getX()+1);
+			}
 		}
 		//isBattle();
 	}
@@ -171,9 +180,17 @@ public class Map extends JPanel {
 		}
 		if (inc) {
 			player.setState(0);
+			getBattle(player.getX(), player.getY());
+			if (battleStatus != -1) {
+				player.setY(player.getY()-1);
+			}
 		}
 		else {
 			player.setState(3);
+			getBattle(player.getX(), player.getY());
+			if (battleStatus != -1) {
+				player.setY(player.getY()+1);
+			}
 		}
 		//isBattle();
 	}
@@ -182,15 +199,29 @@ public class Map extends JPanel {
 		return player;
 	}
 	
-	public Virtumon getVirtumon() {
-		return model.test;
+	public Virtumon getVirtumon(int i) {
+		return model.arrayOfVirtumon.get(i);
 	}
 	
-	public boolean isBattle(int x, int y) {
-		return (x == model.test.getX() && y == model.test.getY());
+	public void getBattle(int x, int y) {
+		boolean found = false;
+		int index = 0;
+		while(!found && index<model.arrayOfVirtumon.size()){
+			if(model.arrayOfVirtumon.get(index).getX() == x && model.arrayOfVirtumon.get(index).getY() == y){
+				found = true;
+			}
+			else{
+				index++;
+			}
+		}
+		
+		if(found){
+			battleStatus = index;
+		}
+		
 	}
 	
-	public boolean isBattle() {
-		return (player.getX() == model.test.getX() && player.getY() == model.test.getY());
+	public int getBattle() {
+		return battleStatus;
 	}
 }
