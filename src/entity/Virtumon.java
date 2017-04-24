@@ -25,6 +25,7 @@ public abstract class Virtumon extends Entity {
 	int absis;
 	int ordinat;
 	int level;
+	boolean alive;
 	Image tile;
 	
 	/**
@@ -47,6 +48,7 @@ public abstract class Virtumon extends Entity {
 		absis = _absis;
 		ordinat = _ordinat;
 		level = _level;
+		alive = true;
 		if (!rendered) {
 			rendered = true;
 			BufferedImage a = ImageIO.read(new File("belra.png"));
@@ -63,7 +65,7 @@ public abstract class Virtumon extends Entity {
 			moltcuno = f;
 			BufferedImage g = ImageIO.read(new File("oddchu.png"));
 			oddchu = g;
-			BufferedImage h = ImageIO.read(new File("pindril.png"));
+			BufferedImage h = ImageIO.read(new File("pindrill.png"));
 			pindrill = h;
 			BufferedImage i = ImageIO.read(new File("ratung.png"));
 			ratung = i;
@@ -71,7 +73,11 @@ public abstract class Virtumon extends Entity {
 			weehorn = j;
 		}
 	}
-
+	
+	public boolean isAlive(){
+		return alive;
+	}
+	
 	public int getLevel() {return level;}
 
 	/**
@@ -134,4 +140,7 @@ public abstract class Virtumon extends Entity {
 		return tile;
 	}
 	
+	public void setAlive(boolean input){
+		alive = input;
+	}
 }

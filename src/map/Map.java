@@ -103,10 +103,18 @@ public class Map extends JPanel {
                 g.drawImage(terrainImage, x, y, this);
             }
         }
+        for (int i = 0; i < model.arrayOfVirtumonAtas.size(); i++) {
+        	int tempX = model.arrayOfVirtumonAtas.get(i).getX();
+        	int tempY = model.arrayOfVirtumonAtas.get(i).getY();
+        	if (model.arrayOfVirtumonAtas.get(i).isAlive() && tempX >=startX && tempX < startX + renderWidth && tempY>=startY && tempY<startY+renderHeight ) {
+        		Image p = model.arrayOfVirtumonAtas.get(i).render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
+                g.drawImage(p, (model.arrayOfVirtumonAtas.get(i).getX() - startX)*rectWidth, (model.arrayOfVirtumonAtas.get(i).getY() - startY)*rectHeight, this);
+        	}
+        }
         Image p = player.getSprite().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
         g.drawImage(p, (player.getX() - startX)*rectWidth, (player.getY() - startY)*rectHeight, this);
-        p = model.test.render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
-        g.drawImage(p, (model.test.getX() - startX)*rectWidth, (model.test.getY() - startY)*rectHeight, this);
+        //p = model.test.render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
+        //g.drawImage(p, (model.test.getX() - startX)*rectWidth, (model.test.getY() - startY)*rectHeight, this);
     }
     
     /**
