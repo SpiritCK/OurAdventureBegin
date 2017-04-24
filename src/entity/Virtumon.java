@@ -27,6 +27,7 @@ public abstract class Virtumon extends Entity {
 	int level;
 	boolean alive;
 	Image tile;
+	boolean isActive;
 	
 	/**
 	 * Constructor class
@@ -72,6 +73,7 @@ public abstract class Virtumon extends Entity {
 			BufferedImage j = ImageIO.read(new File("weehorn.png"));
 			weehorn = j;
 		}
+		isActive = false;
 	}
 	
 	public boolean isAlive(){
@@ -119,6 +121,13 @@ public abstract class Virtumon extends Entity {
 	public int getY(){
 		return ordinat;
 	}
+	/**
+	 * mengembalikan true jika status thread active
+	 * @return status thread
+	 */
+	public boolean getIsActive(){
+		return isActive;
+	}
 	
 	/**
 	 * fungsi untuk mengubah absis
@@ -142,5 +151,9 @@ public abstract class Virtumon extends Entity {
 	
 	public void setAlive(boolean input){
 		alive = input;
+	}
+	
+	public void setIsActive(boolean isActive){
+		this.isActive = isActive;
 	}
 }

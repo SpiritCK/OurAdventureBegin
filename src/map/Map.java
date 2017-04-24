@@ -7,6 +7,7 @@ import entity.Virtumon;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Random;
 /**
  * Kelas untuk JPanel map.
  */
@@ -40,6 +41,10 @@ public class Map extends JPanel {
 	 * tinggi map yang dirender.
 	 */
 	final int renderHeight = 11;
+	/**
+	 * jarak dari tempat render dimana thread masih diproses
+	 */
+	final int threadProcessingRange = 20;
 
 	/**
 	 * constructor.
@@ -56,6 +61,7 @@ public class Map extends JPanel {
 		setPreferredSize(new Dimension(model.GRID_WIDTH*renderWidth, model.GRID_HEIGHT*renderHeight));
 		control = new MapController(this);
 		battleStatus = -1;
+		startThread();
     }
     
     @Override
@@ -154,6 +160,7 @@ public class Map extends JPanel {
 				player.setX(player.getX()+1);
 			}
 		}
+		startThread();
 		//isBattle();
 	}
 	/**
@@ -192,6 +199,7 @@ public class Map extends JPanel {
 				player.setY(player.getY()+1);
 			}
 		}
+		startThread();
 		//isBattle();
 	}
 	
@@ -223,5 +231,124 @@ public class Map extends JPanel {
 	
 	public int getBattle() {
 		return battleStatus;
+	}
+	
+	public Cell[][] getTerrain(){
+		return model.terrainGrid;
+	}
+	
+	public int getNumRows(){
+		return model.NUM_ROWS;
+	}
+	
+	public int getNumCols(){
+		return model.NUM_COLS;
+	}
+	
+	public void startThread(){
+		int startX,startY,endX,endY;
+		startX = player.getX() - ((renderWidth - 1) / 2) - threadProcessingRange;
+		if(startX < 0){
+			startX = 0;
+		}
+		startY = player.getY() - ((renderHeight - 1) / 2) - threadProcessingRange;
+		if(startY < 0){
+			startY = 0;
+		}
+		endX = player.getX() + ((renderWidth - 1) / 2) + threadProcessingRange;
+		if(endX >= model.NUM_COLS){
+			endX = model.NUM_COLS - 1;
+		}
+		endY = player.getY() + ((renderHeight - 1) / 2) + threadProcessingRange;
+		if(endY >= model.NUM_ROWS){
+			endY = model.NUM_ROWS - 1;
+		}
+		
+		for(int i=0; i<model.arrayOfVirtumon.size(); i++){
+			boolean inRange = getVirtumon(i).getX() >= startX && getVirtumon(i).getX() <= endX && getVirtumon(i).getY() >= startY && getVirtumon(i).getY() <= endY;
+			if(!getVirtumon(i).getIsActive() && inRange){
+				final int index = i;
+				new Thread(new Runnable(){
+					final int indexVirtumon = index;
+
+					@Override
+					public void run() {
+						int startX = player.getX() - ((renderWidth - 1) / 2) - threadProcessingRange;
+						if(startX < 0){
+							startX = 0;
+						}
+						int startY = player.getY() - ((renderHeight - 1) / 2) - threadProcessingRange;
+						if(startY < 0){
+							startY = 0;
+						}
+						int endX = player.getX() + ((renderWidth - 1) / 2) + threadProcessingRange;
+						if(endX >= model.NUM_COLS){
+							endX = model.NUM_COLS - 1;
+						}
+						int endY = player.getY() + ((renderHeight - 1) / 2) + threadProcessingRange;
+						if(endY >= model.NUM_ROWS){
+							endY = model.NUM_ROWS - 1;
+						}
+						getVirtumon(indexVirtumon).setIsActive(true);
+						
+						while(getVirtumon(indexVirtumon).getX() >= startX && getVirtumon(indexVirtumon).getX() <= endX && getVirtumon(indexVirtumon).getY() >= startY && getVirtumon(indexVirtumon).getY() <= endY){
+							while(getBattle() != -1){Thread.yield();}
+							Random rand = new Random();
+							try{
+								Thread.sleep((rand.nextInt(5) + 1)*200);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							boolean moved = false;
+							while (!moved){
+								switch(rand.nextInt(4) + 1){
+									case 1:
+										//gerak atas
+										if(getVirtumon(indexVirtumon).getY() - 1 >= 0){
+											if(getTerrain()[getVirtumon(indexVirtumon).getY() - 1][getVirtumon(indexVirtumon).getX()].getClass().getSimpleName().equals("Road")){
+												getVirtumon(indexVirtumon).setY(getVirtumon(indexVirtumon).getY() - 1);
+												moved = true;
+											}
+										}
+										break;
+									case 2:
+										//gerak bawah
+										if(getVirtumon(indexVirtumon).getY() + 1 < getNumRows()){
+											if(getTerrain()[getVirtumon(indexVirtumon).getY() + 1][getVirtumon(indexVirtumon).getX()].getClass().getSimpleName().equals("Road")){
+												getVirtumon(indexVirtumon).setY(getVirtumon(indexVirtumon).getY() + 1);
+												moved = true;
+											}
+										}
+										break;
+									case 3:
+										//gerak kiri
+										if(getVirtumon(indexVirtumon).getX() - 1 >= 0){
+											if(getTerrain()[getVirtumon(indexVirtumon).getY()][getVirtumon(indexVirtumon).getX() - 1].getClass().getSimpleName().equals("Road")){
+												getVirtumon(indexVirtumon).setX(getVirtumon(indexVirtumon).getX() - 1);
+												moved = true;
+											}
+										}
+										break;
+									case 4:
+										//gerak kanan
+										if(getVirtumon(indexVirtumon).getX() + 1 < getNumCols()){
+											if(getTerrain()[getVirtumon(indexVirtumon).getY()][getVirtumon(indexVirtumon).getX() + 1].getClass().getSimpleName().equals("Road")){
+												getVirtumon(indexVirtumon).setX(getVirtumon(indexVirtumon).getX() + 1);
+												moved = true;
+											}
+										}
+										break;
+								}
+							}
+							if(player.getX() == getVirtumon(indexVirtumon).getX() && player.getY() == getVirtumon(indexVirtumon).getY()){
+								battleStatus = indexVirtumon;
+							}
+						}
+						getVirtumon(indexVirtumon).setIsActive(false);
+					}
+					
+				}).start();
+			}
+		}
 	}
 }
