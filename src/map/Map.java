@@ -29,6 +29,10 @@ public class Map extends JPanel {
 	 */
 	Player player;
 	/**
+	 * status battle
+	 */
+	int battleStatus;
+	/**
 	 * lebar map yang dirender.
 	 */
 	final int renderWidth = 17;
@@ -172,6 +176,10 @@ public class Map extends JPanel {
 	
 	public Virtumon getVirtumon() {
 		return model.test;
+	}
+	
+	public boolean isBattle(int x, int y) {
+		return (x == model.test.getX() && y == model.test.getY());
 	}
 	
 	public boolean isBattle() {

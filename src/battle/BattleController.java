@@ -2,6 +2,12 @@ package battle;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 import javax.swing.Timer;
 
 import entity.*;
@@ -33,6 +39,7 @@ public class BattleController implements ActionListener{
      * timer.
      */
     private Timer timer;
+    boolean cheatOn;
     /**
      * lock mutex.
      */
@@ -49,6 +56,46 @@ public class BattleController implements ActionListener{
         enemy = _enemy;
         btl = new Battle(view,player,enemy);
         specialLimit = 3;
+        cheatOn = false;
+		Action cheat = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				cheatOn = true;
+            }
+        };
+		Action healCheat = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				if(cheatOn) {
+					player.setHp(999);
+				}
+            }
+        };
+		Action lvCheat = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				if (cheatOn) {
+					player.incExp(1000);
+				}
+            }
+        };
+
+        int temp = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        
+        bindKeyStroke(temp, "cheat.onoff", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK), cheat);
+        bindKeyStroke(temp, "cheat.heal", KeyStroke.getKeyStroke(KeyEvent.VK_Z, 0), healCheat);
+        bindKeyStroke(temp, "cheat.level", KeyStroke.getKeyStroke(KeyEvent.VK_X, 0), lvCheat);
+    }
+	
+    protected void bindKeyStroke(int condition, String name, KeyStroke keyStroke, Action action) {
+    	view.getInputMap(condition).put(keyStroke, name);
+        view.getActionMap().put(name, action);
     }
     /**
      * Mengatur interaksi terhadap input user pada button.

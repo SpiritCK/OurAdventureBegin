@@ -17,6 +17,7 @@ public class Driver {
     static JPanel cards;
     static Map map;
     static JFrame frame;
+    static int fail;
     
 	public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
@@ -33,7 +34,7 @@ public class Driver {
 
 			@Override
 			public void run() {
-				while(true) {
+				while(fail == 0) {
 					while(!map.isBattle()) {
 						try {
 							Thread.sleep(100);
@@ -77,7 +78,9 @@ public class Driver {
 			JPanel mapPane = new JPanel();
 			mapPane.setLayout(new GridBagLayout());
 			Player player = new Player("Solid",100);
+			System.out.println("hahaha");
 			map = new Map(filename, player);
+			System.out.println("hihihi");
 			c.gridx = 0;
 			c.gridy = 0;
 			mapPane.add(map, c);
@@ -88,11 +91,14 @@ public class Driver {
 			mapPane.add(status, c);
 			mapPane.setVisible(true);
 			cards.add(mapPane, MAP);
+			fail = 0;
 		} catch (IOException e) {
 			JPanel error = new JPanel();
 			JLabel err = new JLabel("Missing data file");
 			error.add(err);
 			error.setVisible(true);
+			cards.add(error, MAP);
+			fail = 1;
 		}
 		pane.add(cards);
 	}

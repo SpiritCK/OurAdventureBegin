@@ -1,7 +1,5 @@
 package map;
 
-import javax.imageio.ImageIO;
-import java.awt.image.*;
 import java.io.*;
 
 /**
@@ -13,7 +11,6 @@ public class River extends Cell {
 	 * @throws IOException file gagal dibuka.
 	 */
 	public River() throws IOException {
-		BufferedImage x = ImageIO.read(new File("river.png"));
-		tile = x;
+		tile = river;
 	}
 }
