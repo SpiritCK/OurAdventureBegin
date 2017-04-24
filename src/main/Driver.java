@@ -48,6 +48,8 @@ public class Driver {
 							e.printStackTrace();
 						}
 					}
+					boolean check = (map.getPlayer().getX() == map.getVirtumon().getX() && map.getPlayer().getY() == map.getVirtumon().getY());
+					assert check;
 					JPanel battlePane = new BattleView(map.getPlayer(), map.getVirtumon());
 					cards.add(battlePane, BATTLE);
 			        CardLayout cl = (CardLayout)(cards.getLayout());

@@ -35,11 +35,11 @@ public class Map extends JPanel {
 	/**
 	 * lebar map yang dirender.
 	 */
-	final int renderWidth = 31;
+	final int renderWidth = 19;
 	/**
 	 * tinggi map yang dirender.
 	 */
-	final int renderHeight = 21;
+	final int renderHeight = 13;
 
 	/**
 	 * constructor.
