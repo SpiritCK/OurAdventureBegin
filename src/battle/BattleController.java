@@ -71,7 +71,7 @@ public class BattleController implements ActionListener{
 			@Override
             public void actionPerformed(ActionEvent e) {
 				if(cheatOn) {
-					player.setHp(999);
+					player.setHp(player.getMaxHp());
 				}
             }
         };
