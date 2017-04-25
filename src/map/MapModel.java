@@ -54,12 +54,12 @@ public class MapModel{
     	return found;
     }
     
-    private void randomVirtumonPosition() throws IOException{
+    void spawnVirtumon() throws IOException{
     	int x;
     	int y;
     	int penentuJenisVirtumon;
     	
-    	arrayOfVirtumon = new Vector<Virtumon>(); 
+    	arrayOfVirtumon = new Vector<Virtumon>();
     	
     	for(int i = 0; i<500; i++){
 	    	Random rand = new Random();
@@ -164,8 +164,7 @@ public class MapModel{
             }
         }
         in.close();
-        
-        randomVirtumonPosition();
+    	arrayOfVirtumon = new Vector<Virtumon>();
     }
 
 }

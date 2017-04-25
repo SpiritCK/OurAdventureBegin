@@ -47,6 +47,10 @@ public class Player extends Entity {
 	 */
 	int state;
 	/**
+	 * max Hp pada lv 1
+	 */
+	static int DEFAULT_MAX_HP;
+	/**
 	 * gambar sprite pemain.
 	 * sprite[0] down
 	 * sprite[1] left
@@ -74,7 +78,8 @@ public class Player extends Entity {
 	 */
 	public Player(String inName, int inMaxHp) throws IOException {
 		name = inName;
-		maxHp = inMaxHp;
+		DEFAULT_MAX_HP = inMaxHp;
+		maxHp = DEFAULT_MAX_HP;
 		hp = maxHp;
 		absis = 0;
 		ordinat = 0;
@@ -100,6 +105,23 @@ public class Player extends Entity {
 
 		BufferedImage y = ImageIO.read(new File("playerbattle.png"));
 		battlesprite = y;
+	}
+	/**
+	 * method untuk mereset status player
+	 */
+	public void refresh() {
+		maxHp = DEFAULT_MAX_HP;
+		hp = maxHp;
+		absis = 0;
+		ordinat = 0;
+		level = 1;
+		maxExp = 5 + 5*level;
+		exp = 0;
+		attack = 100;
+		defense = 70;
+		state = 0;
+		num_of_medicine = 5;		//nanti ganti jd 0
+		caught = new Vector<Virtumon>();
 	}
 	
 	//Getter
@@ -244,6 +266,7 @@ public class Player extends Entity {
 	public void levelUp(){
 		level++;
 		Double newMaxHP = 1.1 * maxHp;
+		hp += newMaxHP - maxHp;
 		maxHp = newMaxHP.intValue();
 	}
 	/**

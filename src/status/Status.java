@@ -28,6 +28,7 @@ public class Status extends JPanel {
 	JLabel atk2;
 	JLabel def1;
 	JLabel def2;
+	JButton caught;
 	JButton heal;
 
 	/**
@@ -119,11 +120,15 @@ public class Status extends JPanel {
 		c.gridy = 6;
 		add(def2,c);
 		
-		heal = new JButton("Medicine left : 0");
+		caught = new JButton("Caught Virtumon");
 		c.gridx = 0;
 		c.gridy = 7;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
+		add(caught, c);
+		
+		heal = new JButton("Medicine left : 0");
+		c.gridy = 8;
 		add(heal, c);
 		
 		new StatusController(this);

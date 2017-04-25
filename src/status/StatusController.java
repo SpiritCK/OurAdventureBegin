@@ -3,6 +3,8 @@ package status;
 import java.awt.event.*;
 import javax.swing.*;
 
+import main.Driver;
+
 public class StatusController {
 	Status view;
 	
@@ -48,6 +50,15 @@ public class StatusController {
             	view.repaint();
             }
         };
+        
+        view.caught.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane.showMessageDialog(Driver.frame, "Your caught virtumon :\nasd\ndfg");
+			}
+        	
+        });
         view.heal.addActionListener(new ActionListener() {
 
 			@Override

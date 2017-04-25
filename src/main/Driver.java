@@ -17,7 +17,7 @@ public class Driver {
     int GUIstate;
     static JPanel cards;
     static Map map;
-    static JFrame frame;
+    public static JFrame frame;
     static int fail;
     static MainMenu mainMenu;
     
@@ -36,44 +36,64 @@ public class Driver {
 
 			@Override
 			public void run() {
-				while(mainMenu.status == 0) {
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					if (mainMenu.status == 2) {
-						JOptionPane.showMessageDialog(frame, "Please enter your name");
-						mainMenu.shown();
-					}
-				}
-				map.setNama(mainMenu.getNama());
-				CardLayout cl = (CardLayout) cards.getLayout();
-		        cl.show(cards, MAP);
-				while(fail == 0) {
-					while(map.getBattle()==-1) {
+				while(true) {
+					while(mainMenu.status == 0) {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-					}
-					boolean check = (map.getPlayer().getX() == map.getVirtumon(map.getBattle()).getX() && map.getPlayer().getY() == map.getVirtumon(map.getBattle()).getY());
-					assert check;
-					BattleView battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
-					cards.add(battlePane, BATTLE);
-			        cl.show(cards, BATTLE);
-			        frame.pack();
-			        while(battlePane.getStatus() == 0) {
-						try {
-							Thread.sleep(100);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						if (mainMenu.status == 2) {
+							JOptionPane.showMessageDialog(frame, "Please enter your name");
+							mainMenu.shown();
 						}
-			        }
-					map.battleConfirmed(battlePane.getStatus());
-			        cards.remove(battlePane);
+					}
+					mainMenu.shown();
+					map.setNama(mainMenu.getNama());
+					CardLayout cl = (CardLayout) cards.getLayout();
 			        cl.show(cards, MAP);
+			        boolean alive = true;
+					while(fail == 0 && alive) {
+						while(map.getBattle()==-1) {
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						boolean check = (map.getPlayer().getX() == map.getVirtumon(map.getBattle()).getX() && map.getPlayer().getY() == map.getVirtumon(map.getBattle()).getY());
+						assert check;
+						BattleView battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
+						cards.add(battlePane, BATTLE);
+				        cl.show(cards, BATTLE);
+				        frame.pack();
+				        while(battlePane.getStatus() == 0) {
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+				        }
+				        if (battlePane.getStatus() == 1) {
+				        	JOptionPane.showMessageDialog(frame, "You win against "+map.getVirtumon(map.getBattle()).getNama());
+				        }
+				        else if (battlePane.getStatus() == 2) {
+				        	JOptionPane.showMessageDialog(frame, "You're dead");
+				        	alive = false;
+				        }
+				        else {
+				        	JOptionPane.showMessageDialog(frame, "Congratulation, you caught it!");
+				        }
+						map.battleConfirmed(battlePane.getStatus());
+				        cards.remove(battlePane);
+				        cl.show(cards, MAP);
+					}
+					cl.show(cards, MAIN);
+					try {
+						map.refresh();
+					} catch (IOException e) {
+						assert false;
+					}
 				}
 			}
         	
@@ -97,8 +117,6 @@ public class Driver {
 	
 	public void addComponentToPane(Container pane) {
 		cards = new JPanel(new CardLayout());
-		File filename = new File("map.txt");
-		GridBagConstraints c = new GridBagConstraints();
 		try {
 			//setup main menu
 			mainMenu = new MainMenu();
@@ -108,6 +126,8 @@ public class Driver {
 			JPanel mapPane = new JPanel();
 			mapPane.setLayout(new GridBagLayout());
 			Player player = new Player("",100);
+			File filename = new File("map.txt");
+			GridBagConstraints c = new GridBagConstraints();
 			map = new Map(filename, player);
 			c.gridx = 0;
 			c.gridy = 0;
@@ -120,6 +140,7 @@ public class Driver {
 			c.anchor = GridBagConstraints.FIRST_LINE_START;
 			mapPane.add(status, c);
 			mapPane.setVisible(true);
+			
 			cards.add(mapPane, MAP);
 			fail = 0;
 		} catch (IOException e) {
@@ -129,7 +150,6 @@ public class Driver {
 			error.setVisible(true);
 			cards.add(error, MAP);
 			fail = 1;
-			assert false;
 		}
 		pane.add(cards);
 	}

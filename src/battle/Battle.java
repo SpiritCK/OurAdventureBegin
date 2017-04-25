@@ -60,45 +60,48 @@ public class Battle {
             shoutPlayer(commandp);
             shoutVirtumon(commande);
             if ((commandp == 1 || commandp == 2) && (commande == 1 || commande == 2)) {
-                attackToEnemyTimer(1500);
-                attackToPlayerTimer(3000);
+                attackToEnemyTimer(1500, false);
+                attackToPlayerTimer(3000, true);
             }
             else
             if (commandp == 3 && commande == 3) {
+            	view.addLog("");
             }
             else
             if (commandp == 3 && commande == 1) {
-                attackToPlayerTimer(1500);
+                attackToPlayerTimer(1500, true);
             }
             else
             if (commandp == 1 && commande == 3) {
-                attackToEnemyTimer(1500);
+                attackToEnemyTimer(1500, true);
             }
             else
             if (commandp == 2 && commande == 3) {
                 view.addLog("Your attack was blocked");
+            	view.addLog("");
             }
             else
             if (commandp == 3 && commande == 2) {
                 view.addLog("You blocked an attack");
+            	view.addLog("");
             }
             else
             if (commandp == 4) {
             	if (commande == 1 || commande == 2) {
-	                catching();
-	                attackToPlayerTimer(3000);
+	                catching(false);
+	                attackToPlayerTimer(3000, true);
 	            }
 	            else {  //commandp == 4 && commande == 3
-	                catching();
+	                catching(true);
 	            }
             }
             else {	//commandp = 5
             	if (commande == 1 || commande == 2) {
-	                heal();
-	                attackToPlayerTimer(3000);
+	                heal(false);
+	                attackToPlayerTimer(3000, true);
 	            }
 	            else {  //commandp == 5 && commande == 3
-	                heal();
+	                heal(true);
 	            }
             }
         }
@@ -106,11 +109,15 @@ public class Battle {
     /**
      * Menyerang player dengan delay tertentu.
      * @param delay delay attack.
+     * @param newline penanda apakah memberi tambahan newline di log
      */
-    private void attackToPlayerTimer(int delay) {
+    private void attackToPlayerTimer(int delay, boolean newline) {
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent x) {
                 attackToPlayer(commande);
+                if (newline) {
+                	view.addLog("");
+                }
             }
         });
         timer.setInitialDelay(delay);
@@ -120,11 +127,15 @@ public class Battle {
     /**
      * Menyerang enemy dengan delay tertentu.
      * @param delay delay attack.
+     * @param newline penanda apakah memberi tambahan newline di log
      */
-    private void attackToEnemyTimer(int delay) {
+    private void attackToEnemyTimer(int delay, boolean newline) {
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent x) {
                 attackToEnemy(commandp);
+                if (newline) {
+                	view.addLog("");
+                }
             }
         });
         timer.setInitialDelay(delay);
@@ -240,8 +251,9 @@ public class Battle {
     }
     /**
      * Menagtur mekanisme penangkapan pokemon.
+     * @param newline penanda apakah memberi tambahan newline di log
      */
-    public void catching() {
+    public void catching(boolean newline) {
         int satu = 1;
         int seratus = 100;
         double percentageOfSuccess = ((double)satu - (double)enemy.getHp()/(double)enemy.getMaxHp())*(double)seratus;
@@ -256,6 +268,9 @@ public class Battle {
                 else {		//gagal menngkap virtumon
                     view.addLog("Virtumon got away");
                 }
+                if (newline) {
+                	view.addLog("");
+                }
             }
         });
         timer.setInitialDelay(1500);
@@ -264,8 +279,9 @@ public class Battle {
     }
     /**
      * Menagtur mekanisme menggunakan medicine.
+     * @param newline penanda apakah memberi tambahan newline di log
      */
-    public void heal() {
+    public void heal(boolean newline) {
         timer = new Timer(1500, new ActionListener() {
             public void actionPerformed(ActionEvent x) {
                 if (player.getMedicine() <= 0) {      //tidak ada medicine
@@ -279,6 +295,9 @@ public class Battle {
                 	player.useMedicine();
                     view.addLog("Healed yourself HP + "+(player.getHp() - curHP));
                     view.repaint();
+                }
+                if (newline) {
+                	view.addLog("");
                 }
             }
         });

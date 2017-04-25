@@ -61,7 +61,21 @@ public class Map extends JPanel {
 		setPreferredSize(new Dimension(model.GRID_WIDTH*renderWidth, model.GRID_HEIGHT*renderHeight));
 		control = new MapController(this);
 		battleStatus = -1;
+		model.spawnVirtumon();
 		startThread();
+    }
+    
+    /**
+     * method untuk mengulang permainan
+     * @throws IOException 
+     */
+    public void refresh() throws IOException {
+		battleStatus = -1;
+		player.refresh();
+		player.setX(0);
+		player.setY(2);
+		player.setState(2);
+		model.spawnVirtumon();
     }
     
     @Override
