@@ -72,7 +72,6 @@ public abstract class Virtumon extends Entity {
 			ratung = i;
 			BufferedImage j = ImageIO.read(new File("weehorn.png"));
 			weehorn = j;
-	    	System.out.println("    wkwk1");
 		}
 		isActive = false;
 	}

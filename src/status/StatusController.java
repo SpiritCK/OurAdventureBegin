@@ -1,6 +1,8 @@
 package status;
 
 import java.awt.event.*;
+import java.util.Vector;
+
 import javax.swing.*;
 
 import main.Driver;
@@ -62,7 +64,18 @@ public class StatusController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(Driver.frame, "Your caught virtumon :\nasd\ndfg");
+				String caught = new String();
+				Vector<String> mentioned = new Vector<String>();
+				for(int i = 0;i < view.model.getVirtumon().size(); i++){
+					String namaVirtumon = new String(view.model.getVirtumon().elementAt(i).getNama());
+					if(!mentioned.contains(namaVirtumon)){
+						mentioned.add(namaVirtumon);
+						int jumlahVirtumon = view.model.getNumVirtumon(namaVirtumon);
+						System.out.println(jumlahVirtumon);
+						caught = caught + "\n" + namaVirtumon + " : " + Integer.toString(jumlahVirtumon);
+					}
+				}
+				JOptionPane.showMessageDialog(Driver.frame, "Your caught virtumon :" + caught);
 			}
         	
         });

@@ -241,6 +241,7 @@ public class Battle {
     private void won() {
         view.addLog("Congratulation! you win");
         view.battleStatus = 1;
+        player.incExp(enemy.getLevel() * 3);
     }
     /**
      * Menampilkan pesan kalah.
@@ -264,6 +265,7 @@ public class Battle {
                     player.addVirtumon(enemy);
                     view.addLog("GOTCHA!! Virtumon was caught");
                     view.battleStatus = 3;
+                    player.incExp(enemy.getLevel() * 2);
                 }
                 else {		//gagal menngkap virtumon
                     view.addLog("Virtumon got away");

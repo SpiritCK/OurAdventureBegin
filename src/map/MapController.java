@@ -25,7 +25,6 @@ public class MapController {
 
 			@Override
             public void actionPerformed(ActionEvent e) {
-				System.out.println("left");
 	            view.IncrementX(false);
 	            view.repaint();
             }
@@ -35,7 +34,6 @@ public class MapController {
 			
             @Override
             public void actionPerformed(ActionEvent e) {
-				System.out.println("right");
 	            view.IncrementX(true);
 	            view.repaint();
             }
@@ -45,7 +43,6 @@ public class MapController {
 			
             @Override
             public void actionPerformed(ActionEvent e) {
-				System.out.println("up");
 	            view.IncrementY(false);
 	            view.repaint();
             }
@@ -55,7 +52,6 @@ public class MapController {
 			
 			@Override
             public void actionPerformed(ActionEvent e) {
-				System.out.println("down");
 				view.IncrementY(true);
 				view.repaint();
             }

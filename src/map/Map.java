@@ -145,21 +145,16 @@ public class Map extends JPanel {
      * @param inc true jika bergerak ke kanan. false jika bergerak ke kiri
      */
     public void IncrementX(boolean inc) {
-		System.out.println("X "+inc+" "+player.getX()+" "+model.NUM_COLS);
 		if (inc && (player.getX() < model.NUM_COLS-1)) {
 	    	String classXp = model.terrainGrid[player.getY()][player.getX()+1].getClass().getSimpleName();
-	    	System.out.println("inc "+classXp);
 	    	if (classXp.equals("Road") || classXp.equals("Door") || classXp.equals("Finish")) {
 	    		player.setX(player.getX()+1);
-				System.out.println("addX");
 	    	}
 		}
 		else if (!inc && (player.getX() > 0)) {
 	    	String classXm = model.terrainGrid[player.getY()][player.getX()-1].getClass().getSimpleName();
-	    	System.out.println("dec "+classXm);
 	    	if (classXm.equals("Road") || classXm.equals("Door") || classXm.equals("Finish")) {
 	    		player.setX(player.getX()-1);
-				System.out.println("decX");
 	    	}
 		}
 		if (inc) {
@@ -184,21 +179,16 @@ public class Map extends JPanel {
      * @param inc true jika bergerak ke bawah. false jika bergerak ke atas.
      */
 	public void IncrementY(boolean inc) {
-		System.out.println("Y "+inc+" "+player.getY()+" "+model.NUM_ROWS);
 		if (inc && (player.getY() < model.NUM_ROWS-1)) {
 	    	String classYp = model.terrainGrid[player.getY()+1][player.getX()].getClass().getSimpleName();
-	    	System.out.println("inc "+classYp);
 	    	if (classYp.equals("Road") || classYp.equals("Door") || classYp.equals("Finish")) {
 	    		player.setY(player.getY()+1);
-				System.out.println("addY");
 			}
 		}
 		else if (!inc && (player.getY() > 0)) {
 	    	String classYm = model.terrainGrid[player.getY()-1][player.getX()].getClass().getSimpleName();
-	    	System.out.println("dec "+classYm);
 	    	if (classYm.equals("Road") || classYm.equals("Door") || classYm.equals("Finish")) {
 	    		player.setY(player.getY()-1);
-				System.out.println("decY");
 	    	}
 		}
 		if (inc) {

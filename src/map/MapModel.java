@@ -153,12 +153,7 @@ public class MapModel{
         String c;
         for (int i = 0; i < NUM_ROWS; i++) {
             c = in.next();
-            System.out.println(i+" : "+c);
             for (int j = 0; j < NUM_COLS; j++) {
-                System.out.println("    "+j+" : "+c.charAt(j));
-                if(c.charAt(j) == '-') {
-                	System.out.println("    ok");
-                }
 	           	switch(c.charAt(j)) {
 	           	case 'D' :
 	           		terrainGrid[i][j] = new Door();
