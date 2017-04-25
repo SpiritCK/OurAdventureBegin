@@ -243,6 +243,20 @@ public class Player extends Entity {
 	public Vector<Virtumon> getVirtumon(){
 		return caught;
 	}
+	/**
+	 * Mengembalikan jumlah virtumon bernama S yang sudah tertangkap.
+	 * @param nama Virtumon.
+	 * @return jumlah Virtumon tertangkap.
+	 */
+	public int getNumVirtumon(String S){
+		int count = 0;
+		for(int i=0; i < caught.size(); i++){
+			if(caught.elementAt(i).getNama().equals(S)){
+				count++;
+			}
+		}
+		return count;
+	}
 	
 	//Setter
 	/**

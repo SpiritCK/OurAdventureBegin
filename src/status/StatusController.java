@@ -1,20 +1,15 @@
 package status;
 
 import java.awt.event.*;
+import java.util.Vector;
+
 import javax.swing.*;
 
 import main.Driver;
 
 public class StatusController {
-	/**
-	 * data member view
-	 */
 	Status view;
 	
-	/**
-	 * Constructor.
-	 * @param m view
-	 */
 	public StatusController(Status m) {
 		view = m;
 		Action incAction = new AbstractAction() {
@@ -62,7 +57,18 @@ public class StatusController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(Driver.frame, "Your caught virtumon :\nasd\ndfg");
+				String caught = new String();
+				Vector<String> mentioned = new Vector<String>();
+				for(int i = 0;i < view.model.getVirtumon().size(); i++){
+					String namaVirtumon = new String(view.model.getVirtumon().elementAt(i).getNama());
+					if(!mentioned.contains(namaVirtumon)){
+						mentioned.add(namaVirtumon);
+						int jumlahVirtumon = view.model.getNumVirtumon(namaVirtumon);
+						System.out.println(jumlahVirtumon);
+						caught = caught + "\n" + namaVirtumon + " : " + Integer.toString(jumlahVirtumon);
+					}
+				}
+				JOptionPane.showMessageDialog(Driver.frame, "Your caught virtumon :" + caught);
 			}
         	
         });
@@ -82,14 +88,7 @@ public class StatusController {
         bindKeyStroke(temp, "inc.xp", KeyStroke.getKeyStroke(KeyEvent.VK_G, 0), incXpAction);
         bindKeyStroke(temp, "dec.xp", KeyStroke.getKeyStroke(KeyEvent.VK_F, 0), decXpAction);
     }
-	
-	/**
-	 * mengikat tombol keyboard dengan aksi
-	 * @param condition kondisi utama
-	 * @param name nama aksi
-	 * @param keyStroke tombol yang ditekan
-	 * @param action aksi yang dijalankan
-	 */
+
     protected void bindKeyStroke(int condition, String name, KeyStroke keyStroke, Action action) {
     	view.getInputMap(condition).put(keyStroke, name);
         view.getActionMap().put(name, action);
