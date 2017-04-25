@@ -10,7 +10,8 @@ import map.*;
 import status.*;
 
 public class Driver {
-	
+
+    final static String MAIN = "Main Menu GUI";
     final static String MAP = "Map GUI";
     final static String BATTLE = "Battle GUI";
     int GUIstate;
@@ -42,20 +43,22 @@ public class Driver {
 							e.printStackTrace();
 						}
 					}
-					JPanel battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
+					boolean check = (map.getPlayer().getX() == map.getVirtumon(map.getBattle()).getX() && map.getPlayer().getY() == map.getVirtumon(map.getBattle()).getY());
+					assert check;
+					BattleView battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
 					cards.add(battlePane, BATTLE);
 			        CardLayout cl = (CardLayout)(cards.getLayout());
 			        cl.show(cards, BATTLE);
 			        frame.pack();
-			        //ini diganti dengan ngecek apakah battle beres
-			        while(map.getBattle()!=-1) {
+			        while(battlePane.getStatus() == 0) {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-					}
-			        // TODO remove battle card
+			        }
+					map.battleConfirmed(battlePane.getStatus());
+			        cards.remove(battlePane);
 			        cl.show(cards, MAP);
 				}
 			}
@@ -83,6 +86,11 @@ public class Driver {
 		File filename = new File("map.txt");
 		GridBagConstraints c = new GridBagConstraints();
 		try {
+			//setup main menu
+			JPanel mainMenu = new MainMenu();
+			cards.add(mainMenu, MAIN);
+			
+			//setup map
 			JPanel mapPane = new JPanel();
 			mapPane.setLayout(new GridBagLayout());
 			Player player = new Player("Solid",100);
@@ -91,6 +99,8 @@ public class Driver {
 			System.out.println("hihihi");
 			c.gridx = 0;
 			c.gridy = 0;
+			c.ipadx = 0;
+			c.ipady = 0;
 			mapPane.add(map, c);
 			Status status = new Status(player);
 			c.gridx = 1;

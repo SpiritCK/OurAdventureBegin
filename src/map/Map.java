@@ -36,11 +36,11 @@ public class Map extends JPanel {
 	/**
 	 * lebar map yang dirender.
 	 */
-	final int renderWidth = 17;
+	final int renderWidth = 19;
 	/**
 	 * tinggi map yang dirender.
 	 */
-	final int renderHeight = 11;
+	final int renderHeight = 13;
 	/**
 	 * jarak dari tempat render dimana thread masih diproses
 	 */
@@ -233,6 +233,13 @@ public class Map extends JPanel {
 		return battleStatus;
 	}
 	
+	public void battleConfirmed(int result) {
+		if (result == 1) {
+			model.arrayOfVirtumon.get(battleStatus).kill();
+		}
+		battleStatus = -1;
+	}
+	
 	public Cell[][] getTerrain(){
 		return model.terrainGrid;
 	}
@@ -266,7 +273,7 @@ public class Map extends JPanel {
 		
 		for(int i=0; i<model.arrayOfVirtumon.size(); i++){
 			boolean inRange = getVirtumon(i).getX() >= startX && getVirtumon(i).getX() <= endX && getVirtumon(i).getY() >= startY && getVirtumon(i).getY() <= endY;
-			if(!getVirtumon(i).getIsActive() && inRange){
+			if(!getVirtumon(i).getIsActive() && inRange && getVirtumon(i).isAlive()){
 				final int index = i;
 				new Thread(new Runnable(){
 					final int indexVirtumon = index;

@@ -72,6 +72,7 @@ public abstract class Virtumon extends Entity {
 			ratung = i;
 			BufferedImage j = ImageIO.read(new File("weehorn.png"));
 			weehorn = j;
+	    	System.out.println("    wkwk1");
 		}
 		isActive = false;
 	}
@@ -80,7 +81,13 @@ public abstract class Virtumon extends Entity {
 		return alive;
 	}
 	
-	public int getLevel() {return level;}
+	public void kill() {
+		alive = false;
+	}
+	
+	public int getLevel() {
+		return level;
+	}
 
 	/**
 	 * fungsi untuk mendapatkan nama virtumon

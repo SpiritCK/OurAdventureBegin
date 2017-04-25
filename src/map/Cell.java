@@ -24,6 +24,8 @@ public abstract class Cell {
 	
 	public Cell() throws IOException {
 		if (!rendered) {
+
+	    	System.out.println("    lalala");
 			rendered = true;
 			BufferedImage a = ImageIO.read(new File("door.png"));
 			door = a;

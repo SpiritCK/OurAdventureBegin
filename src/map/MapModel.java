@@ -129,6 +129,8 @@ public class MapModel{
      * @throws IOException jika gagal membuka file.
      */
     public MapModel(File filename) throws IOException {
+    	boolean check = filename != null;
+    	assert check;
     	Scanner in = new Scanner(filename);
     	NUM_ROWS = in.nextInt();
     	NUM_COLS = in.nextInt();
@@ -154,8 +156,10 @@ public class MapModel{
 	           	case 'R' :
 	           		terrainGrid[i][j] = new River();
             		break;
-	           	default :
+	           	case '-' :
 	           		terrainGrid[i][j] = new Road();
+	           	default :
+	           		assert false;
 	           	}
             }
         }
