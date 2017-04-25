@@ -83,6 +83,10 @@ public class BattleView extends JPanel{
      */
     int battleStatus;
     /**
+     * controller battle
+     */
+    BattleController control;
+    /**
      * Constructor.
      * @param p pemain.
      * @param v virtumon yang dilawan.
@@ -132,7 +136,7 @@ public class BattleView extends JPanel{
         c.gridy = 2;
         add(virtumonsprite, c);
 
-        BattleController control = new BattleController(this,p,v);
+        control = new BattleController(this,p,v);
         button1 = new JButton("Normal Atk");
         button1.setActionCommand("1");
         button1.addActionListener(control);
@@ -143,7 +147,7 @@ public class BattleView extends JPanel{
         c.fill = GridBagConstraints.HORIZONTAL;
         add(button1, c);
         
-        button2 = new JButton("Special Atk");
+        button2 = new JButton("Sp. Atk : 0");
         button2.setActionCommand("2");
         button2.addActionListener(control);
         c.gridy = 4;
@@ -208,5 +212,6 @@ public class BattleView extends JPanel{
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
         button5.setText("Heal : "+player.getMedicine());
+        button2.setText("Sp. Atk : "+control.specialLimit);
     }
 }

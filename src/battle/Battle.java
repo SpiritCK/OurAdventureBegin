@@ -25,7 +25,7 @@ public class Battle {
     private BattleView view;
     /**
      * command yang dipilih player.
-     * 1 = normal attack, 2 = special attack, 3 = defense, 4 catch, 5 = heal.
+     * 1 = normal attack, 2 = special attack, 3 = defense, 4 catch.
      */
     private int commandp;
     /**
@@ -65,7 +65,7 @@ public class Battle {
             }
             else
             if (commandp == 3 && commande == 3) {
-            	view.addLog("");
+                view.addLog("");
             }
             else
             if (commandp == 3 && commande == 1) {
@@ -78,31 +78,31 @@ public class Battle {
             else
             if (commandp == 2 && commande == 3) {
                 view.addLog("Your attack was blocked");
-            	view.addLog("");
+                view.addLog("");
             }
             else
             if (commandp == 3 && commande == 2) {
                 view.addLog("You blocked an attack");
-            	view.addLog("");
+                view.addLog("");
             }
             else
             if (commandp == 4) {
-            	if (commande == 1 || commande == 2) {
-	                catching(false);
-	                attackToPlayerTimer(3000, true);
-	            }
-	            else {  //commandp == 4 && commande == 3
-	                catching(true);
-	            }
+                if (commande == 1 || commande == 2) {
+                    catching(false);
+                    attackToPlayerTimer(3000, true);
+                }
+                else {  //commandp == 4 && commande == 3
+                    catching(true);
+                }
             }
             else {	//commandp = 5
-            	if (commande == 1 || commande == 2) {
-	                heal(false);
-	                attackToPlayerTimer(3000, true);
-	            }
-	            else {  //commandp == 5 && commande == 3
-	                heal(true);
-	            }
+                if (commande == 1 || commande == 2) {
+                    heal(false);
+                    attackToPlayerTimer(3000, true);
+                }
+                else {  //commandp == 5 && commande == 3
+                    heal(true);
+                }
             }
         }
     }
@@ -116,7 +116,7 @@ public class Battle {
             public void actionPerformed(ActionEvent x) {
                 attackToPlayer(commande);
                 if (newline) {
-                	view.addLog("");
+                    view.addLog("");
                 }
             }
         });
@@ -134,7 +134,7 @@ public class Battle {
             public void actionPerformed(ActionEvent x) {
                 attackToEnemy(commandp);
                 if (newline) {
-                	view.addLog("");
+                    view.addLog("");
                 }
             }
         });
@@ -196,22 +196,24 @@ public class Battle {
      * @param attackNumber command.
      */
     private void attackToPlayer(int attackNumber) {
-        int dmg = 0;
-        switch (attackNumber) {
-            case 1:
-                dmg = (int) (Math.round((enemy.getLevel() * 0.4 + 2) * 100 * enemy.getDamage() / (player.getDefense() * 50) + 2));
-                break;
-            case 2:
-                dmg = (int) (Math.round((enemy.getLevel() * 0.4 + 2) * 300 * enemy.getDamage() / (player.getDefense() * 50) + 2));
-                break;
+        if (view.battleStatus == 0) {
+            int dmg = 0;
+            switch (attackNumber) {
+                case 1:
+                    dmg = (int) (Math.round((enemy.getLevel() * 0.4 + 2) * 100 * enemy.getDamage() / (player.getDefense() * 50) + 2));
+                    break;
+                case 2:
+                    dmg = (int) (Math.round((enemy.getLevel() * 0.4 + 2) * 300 * enemy.getDamage() / (player.getDefense() * 50) + 2));
+                    break;
+            }
+            player.incHp((-1) * dmg);
+            view.addLog("Enemy successfully attack!, HP - " + Integer.toString(dmg));
+            if (player.getHp() <= 0) {
+                lose();
+            }
+            view.playerhp.repaint();
+            view.virtumonhp.repaint();
         }
-        player.incHp((-1) * dmg);
-        view.addLog("Enemy successfully attack!, HP - " + Integer.toString(dmg));
-        if (player.getHp() <= 0) {
-            lose();
-        }
-        view.playerhp.repaint();
-        view.virtumonhp.repaint();
     }
     /**
      * Menyerang enemy dengan menghitung damage dan mengurangi hp enemy.
@@ -271,7 +273,7 @@ public class Battle {
                     view.addLog("Virtumon got away");
                 }
                 if (newline) {
-                	view.addLog("");
+                    view.addLog("");
                 }
             }
         });
@@ -290,16 +292,16 @@ public class Battle {
                     view.addLog("But you have used up all your medicine");
                 }
                 else if (player.getHp() == player.getMaxHp()){	//nyawa penuh
-                	view.addLog("But your HP is full");
+                    view.addLog("But your HP is full");
                 }
                 else {		//gagal menngkap virtumon
-                	int curHP = player.getHp();
-                	player.useMedicine();
+                    int curHP = player.getHp();
+                    player.useMedicine();
                     view.addLog("Healed yourself HP + "+(player.getHp() - curHP));
                     view.repaint();
                 }
                 if (newline) {
-                	view.addLog("");
+                    view.addLog("");
                 }
             }
         });

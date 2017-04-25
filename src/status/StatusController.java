@@ -8,6 +8,10 @@ public class StatusController {
 	 * data member view
 	 */
 	Status view;
+	/**
+	 * penanda nyala tidaknya cheat
+	 */
+	private boolean cheatOn;
 	
 	/**
 	 * Constructor.
@@ -15,14 +19,24 @@ public class StatusController {
 	 */
 	public StatusController(Status m) {
 		view = m;
+		cheatOn = false;
+		Action cheat = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				cheatOn = true;
+            }
+        };
 		Action incAction = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
             public void actionPerformed(ActionEvent e) {
-				System.out.println("plus");
-            	view.hp2.change(5);
-            	view.repaint();
+				if (cheatOn) {
+	            	view.hp2.change(5);
+	            	view.repaint();
+				}
             }
         };
         Action decAction = new AbstractAction() {
@@ -30,9 +44,10 @@ public class StatusController {
 			
             @Override
             public void actionPerformed(ActionEvent e) {
-				System.out.println("minus");
-            	view.hp2.change(-5);
-            	view.repaint();
+				if (cheatOn) {
+	            	view.hp2.change(-5);
+	            	view.repaint();
+				}
             }
         };
 		Action incXpAction = new AbstractAction() {
@@ -40,9 +55,10 @@ public class StatusController {
 
 			@Override
             public void actionPerformed(ActionEvent e) {
-				System.out.println("xp plus");
-            	view.xp2.change(3);
-            	view.repaint();
+				if (cheatOn) {
+	            	view.xp2.change(3);
+	            	view.repaint();
+				}
             }
         };
         Action decXpAction = new AbstractAction() {
@@ -50,9 +66,10 @@ public class StatusController {
 			
             @Override
             public void actionPerformed(ActionEvent e) {
-				System.out.println("xp minus");
-            	view.xp2.change(-3);
-            	view.repaint();
+				if (cheatOn) {
+	            	view.xp2.change(-3);
+	            	view.repaint();
+				}
             }
         };
         
@@ -75,6 +92,7 @@ public class StatusController {
         
         int temp = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
+        bindKeyStroke(temp, "cheat.onoff", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK), cheat);
         bindKeyStroke(temp, "inc.hp", KeyStroke.getKeyStroke(KeyEvent.VK_T, 0), incAction);
         bindKeyStroke(temp, "dec.hp", KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), decAction);
         bindKeyStroke(temp, "inc.xp", KeyStroke.getKeyStroke(KeyEvent.VK_G, 0), incXpAction);

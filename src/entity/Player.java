@@ -245,7 +245,7 @@ public class Player extends Entity {
 	}
 	/**
 	 * Mengembalikan jumlah virtumon bernama S yang sudah tertangkap.
-	 * @param nama Virtumon.
+	 * @param S Virtumon.
 	 * @return jumlah Virtumon tertangkap.
 	 */
 	public int getNumVirtumon(String S){
@@ -279,9 +279,11 @@ public class Player extends Entity {
 	 */
 	public void levelUp(){
 		level++;
-		Double newMaxHP = 1.1 * maxHp;
+		int newMaxHP = 40 + maxHp;
 		hp += newMaxHP - maxHp;
-		maxHp = newMaxHP.intValue();
+		maxHp = newMaxHP;
+		attack += 14;
+		defense += 7;
 	}
 	/**
 	 * menambah virtumon ke dalam vector virtumon yang sudah ditangkap.

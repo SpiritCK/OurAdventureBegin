@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Charwak extends Virtumon {
 	public Charwak(int x, int y) throws IOException{
-		super("Charwak", 100, 30, 10, x, y, 1);
+		super("Charwak", 100, 50, 50, x, y, 1);
 		tile = charwak;
 	}
 }

@@ -30,7 +30,7 @@ public class BattleController implements ActionListener{
     /**
      * Limit special.
      */
-    private int specialLimit;
+    int specialLimit;
     /**
      * battle view.
      */
