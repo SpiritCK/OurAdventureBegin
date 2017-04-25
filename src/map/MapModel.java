@@ -3,6 +3,8 @@ package map;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Random;
+import java.util.Vector;
 
 import entity.*;
 
@@ -30,8 +32,97 @@ public class MapModel{
 	 * matriks untuk menyimpan objek-objek yang ada dalam map
 	 */
     final Cell[][] terrainGrid;
-    Virtumon test;
+    
+    
+    
+    Vector<Virtumon> arrayOfVirtumon;
 
+    private boolean isExist(int x, int y, Vector<Virtumon> tabel){
+    	boolean found = false;
+    	int indexVector = 0;
+    	if(!tabel.isEmpty()){
+    		while(indexVector<tabel.size() && !found){
+    			if(tabel.get(indexVector).getX() == x && tabel.get(indexVector).getY() == y){
+    				found = true;
+    			}
+    			else{
+    				indexVector++;
+    			}
+    		}
+    	}
+    	
+    	return found;
+    }
+    
+    private void randomVirtumonPosition() throws IOException{
+    	int x;
+    	int y;
+    	int penentuJenisVirtumon;
+    	
+    	arrayOfVirtumon = new Vector<Virtumon>(); 
+    	
+    	for(int i = 0; i<500; i++){
+	    	Random rand = new Random();
+	    	x = rand.nextInt(399);
+	    	y = rand.nextInt(399);
+	    	
+	    	while(!((x!=0 || y!=0) && terrainGrid[y][x].getClass().getSimpleName().equals("Road") && !isExist(x, y, arrayOfVirtumon))){
+	    		x = rand.nextInt(399);
+	    		y = rand.nextInt(399);
+	    	}
+	    	if(y<=200){
+		    	penentuJenisVirtumon = rand.nextInt(6) + 1;
+		    	
+		    	switch (penentuJenisVirtumon){
+		    	case 1 :
+		    		Belra b = new Belra(x, y);
+		    		arrayOfVirtumon.add(b);
+		    		break;
+		    	case 2 :
+		    		Charwak c = new Charwak(x, y);
+		    		arrayOfVirtumon.add(c);
+		    		break;
+		    	case 3 :
+		    		Dugsect d = new Dugsect(x, y);
+		    		arrayOfVirtumon.add(d);
+		    		break;
+		    	case 4 :
+		    		Kingbat k = new Kingbat(x, y);
+		    		arrayOfVirtumon.add(k);
+		    		break;
+		    	case 5 :
+		    		Oddchu o = new Oddchu(x, y);
+		    		arrayOfVirtumon.add(o);
+		    		break;
+		    	default :
+		    		Ratung r = new Ratung(x, y);
+		    		arrayOfVirtumon.add(r);
+		    	}
+	    	}
+	    	else{
+	    		penentuJenisVirtumon = rand.nextInt(4) + 1;
+	    		
+	    		switch(penentuJenisVirtumon){
+	    		case 1 :
+	    			Kadaix k = new Kadaix(x, y);
+	    			arrayOfVirtumon.add(k);
+	    			break;
+	    		case 2 :
+	    			Moltcuno m = new Moltcuno(x, y);
+	    			arrayOfVirtumon.add(m);
+	    			break;
+	    		case 3 :
+	    			Pindrill p = new Pindrill(x, y);
+	    			arrayOfVirtumon.add(p);
+	    			break;
+	    		default :
+	    			Weehorn w = new Weehorn(x, y);
+	    			arrayOfVirtumon.add(w);
+	    		}
+	    	}
+    	}
+    }
+    
     /**
      * constructor
      * @param nama file yang berisi data map.
@@ -46,7 +137,6 @@ public class MapModel{
     	GRID_WIDTH = in.nextInt();
     	GRID_HEIGHT = in.nextInt();
         terrainGrid = new Cell[NUM_ROWS][NUM_COLS];
-        test = new Belra(4,2);
         
         // Randomize the terrain
         String c;
@@ -74,6 +164,8 @@ public class MapModel{
             }
         }
         in.close();
+        
+        randomVirtumonPosition();
     }
 
 }

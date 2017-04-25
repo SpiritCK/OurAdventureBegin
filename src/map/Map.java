@@ -7,6 +7,7 @@ import entity.Virtumon;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Random;
 /**
  * Kelas untuk JPanel map.
  */
@@ -40,6 +41,10 @@ public class Map extends JPanel {
 	 * tinggi map yang dirender.
 	 */
 	final int renderHeight = 13;
+	/**
+	 * jarak dari tempat render dimana thread masih diproses
+	 */
+	final int threadProcessingRange = 20;
 
 	/**
 	 * constructor.
@@ -55,6 +60,8 @@ public class Map extends JPanel {
 		p.setState(2);
 		setPreferredSize(new Dimension(model.GRID_WIDTH*renderWidth, model.GRID_HEIGHT*renderHeight));
 		control = new MapController(this);
+		battleStatus = -1;
+		startThread();
     }
     
     @Override
@@ -103,10 +110,18 @@ public class Map extends JPanel {
                 g.drawImage(terrainImage, x, y, this);
             }
         }
+        for (int i = 0; i < model.arrayOfVirtumon.size(); i++) {
+        	int tempX = model.arrayOfVirtumon.get(i).getX();
+        	int tempY = model.arrayOfVirtumon.get(i).getY();
+        	if (model.arrayOfVirtumon.get(i).isAlive() && tempX >=startX && tempX < startX + renderWidth && tempY>=startY && tempY<startY+renderHeight ) {
+        		Image p = model.arrayOfVirtumon.get(i).render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
+                g.drawImage(p, (model.arrayOfVirtumon.get(i).getX() - startX)*rectWidth, (model.arrayOfVirtumon.get(i).getY() - startY)*rectHeight, this);
+        	}
+        }
         Image p = player.getSprite().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
         g.drawImage(p, (player.getX() - startX)*rectWidth, (player.getY() - startY)*rectHeight, this);
-        p = model.test.render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
-        g.drawImage(p, (model.test.getX() - startX)*rectWidth, (model.test.getY() - startY)*rectHeight, this);
+        //p = model.test.render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
+        //g.drawImage(p, (model.test.getX() - startX)*rectWidth, (model.test.getY() - startY)*rectHeight, this);
     }
     
     /**
@@ -133,10 +148,19 @@ public class Map extends JPanel {
 		}
 		if (inc) {
 			player.setState(2);
+			getBattle(player.getX(), player.getY());
+			if (battleStatus != -1) {
+				player.setX(player.getX()-1);
+			}
 		}
 		else {
 			player.setState(1);
+			getBattle(player.getX(), player.getY());
+			if (battleStatus != -1) {
+				player.setX(player.getX()+1);
+			}
 		}
+		startThread();
 		//isBattle();
 	}
 	/**
@@ -163,10 +187,19 @@ public class Map extends JPanel {
 		}
 		if (inc) {
 			player.setState(0);
+			getBattle(player.getX(), player.getY());
+			if (battleStatus != -1) {
+				player.setY(player.getY()-1);
+			}
 		}
 		else {
 			player.setState(3);
+			getBattle(player.getX(), player.getY());
+			if (battleStatus != -1) {
+				player.setY(player.getY()+1);
+			}
 		}
+		startThread();
 		//isBattle();
 	}
 	
@@ -174,15 +207,155 @@ public class Map extends JPanel {
 		return player;
 	}
 	
-	public Virtumon getVirtumon() {
-		return model.test;
+	public Virtumon getVirtumon(int i) {
+		return model.arrayOfVirtumon.get(i);
 	}
 	
-	public boolean isBattle(int x, int y) {
-		return (x == model.test.getX() && y == model.test.getY());
+	public void getBattle(int x, int y) {
+		boolean found = false;
+		int index = 0;
+		while(!found && index<model.arrayOfVirtumon.size()){
+			if(model.arrayOfVirtumon.get(index).getX() == x && model.arrayOfVirtumon.get(index).getY() == y){
+				found = true;
+			}
+			else{
+				index++;
+			}
+		}
+		
+		if(found){
+			battleStatus = index;
+		}
+		
 	}
 	
-	public boolean isBattle() {
-		return (player.getX() == model.test.getX() && player.getY() == model.test.getY());
+	public int getBattle() {
+		return battleStatus;
+	}
+	
+	public void battleConfirmed(int result) {
+		if (result == 1) {
+			model.arrayOfVirtumon.get(battleStatus).kill();
+		}
+		battleStatus = -1;
+	}
+	
+	public Cell[][] getTerrain(){
+		return model.terrainGrid;
+	}
+	
+	public int getNumRows(){
+		return model.NUM_ROWS;
+	}
+	
+	public int getNumCols(){
+		return model.NUM_COLS;
+	}
+	
+	public void startThread(){
+		int startX,startY,endX,endY;
+		startX = player.getX() - ((renderWidth - 1) / 2) - threadProcessingRange;
+		if(startX < 0){
+			startX = 0;
+		}
+		startY = player.getY() - ((renderHeight - 1) / 2) - threadProcessingRange;
+		if(startY < 0){
+			startY = 0;
+		}
+		endX = player.getX() + ((renderWidth - 1) / 2) + threadProcessingRange;
+		if(endX >= model.NUM_COLS){
+			endX = model.NUM_COLS - 1;
+		}
+		endY = player.getY() + ((renderHeight - 1) / 2) + threadProcessingRange;
+		if(endY >= model.NUM_ROWS){
+			endY = model.NUM_ROWS - 1;
+		}
+		
+		for(int i=0; i<model.arrayOfVirtumon.size(); i++){
+			boolean inRange = getVirtumon(i).getX() >= startX && getVirtumon(i).getX() <= endX && getVirtumon(i).getY() >= startY && getVirtumon(i).getY() <= endY;
+			if(!getVirtumon(i).getIsActive() && inRange && getVirtumon(i).isAlive()){
+				final int index = i;
+				new Thread(new Runnable(){
+					final int indexVirtumon = index;
+
+					@Override
+					public void run() {
+						int startX = player.getX() - ((renderWidth - 1) / 2) - threadProcessingRange;
+						if(startX < 0){
+							startX = 0;
+						}
+						int startY = player.getY() - ((renderHeight - 1) / 2) - threadProcessingRange;
+						if(startY < 0){
+							startY = 0;
+						}
+						int endX = player.getX() + ((renderWidth - 1) / 2) + threadProcessingRange;
+						if(endX >= model.NUM_COLS){
+							endX = model.NUM_COLS - 1;
+						}
+						int endY = player.getY() + ((renderHeight - 1) / 2) + threadProcessingRange;
+						if(endY >= model.NUM_ROWS){
+							endY = model.NUM_ROWS - 1;
+						}
+						getVirtumon(indexVirtumon).setIsActive(true);
+						
+						while(getVirtumon(indexVirtumon).getX() >= startX && getVirtumon(indexVirtumon).getX() <= endX && getVirtumon(indexVirtumon).getY() >= startY && getVirtumon(indexVirtumon).getY() <= endY){
+							while(getBattle() != -1){Thread.yield();}
+							Random rand = new Random();
+							try{
+								Thread.sleep((rand.nextInt(5) + 1)*200);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							boolean moved = false;
+							while (!moved){
+								switch(rand.nextInt(4) + 1){
+									case 1:
+										//gerak atas
+										if(getVirtumon(indexVirtumon).getY() - 1 >= 0){
+											if(getTerrain()[getVirtumon(indexVirtumon).getY() - 1][getVirtumon(indexVirtumon).getX()].getClass().getSimpleName().equals("Road")){
+												getVirtumon(indexVirtumon).setY(getVirtumon(indexVirtumon).getY() - 1);
+												moved = true;
+											}
+										}
+										break;
+									case 2:
+										//gerak bawah
+										if(getVirtumon(indexVirtumon).getY() + 1 < getNumRows()){
+											if(getTerrain()[getVirtumon(indexVirtumon).getY() + 1][getVirtumon(indexVirtumon).getX()].getClass().getSimpleName().equals("Road")){
+												getVirtumon(indexVirtumon).setY(getVirtumon(indexVirtumon).getY() + 1);
+												moved = true;
+											}
+										}
+										break;
+									case 3:
+										//gerak kiri
+										if(getVirtumon(indexVirtumon).getX() - 1 >= 0){
+											if(getTerrain()[getVirtumon(indexVirtumon).getY()][getVirtumon(indexVirtumon).getX() - 1].getClass().getSimpleName().equals("Road")){
+												getVirtumon(indexVirtumon).setX(getVirtumon(indexVirtumon).getX() - 1);
+												moved = true;
+											}
+										}
+										break;
+									case 4:
+										//gerak kanan
+										if(getVirtumon(indexVirtumon).getX() + 1 < getNumCols()){
+											if(getTerrain()[getVirtumon(indexVirtumon).getY()][getVirtumon(indexVirtumon).getX() + 1].getClass().getSimpleName().equals("Road")){
+												getVirtumon(indexVirtumon).setX(getVirtumon(indexVirtumon).getX() + 1);
+												moved = true;
+											}
+										}
+										break;
+								}
+							}
+							if(player.getX() == getVirtumon(indexVirtumon).getX() && player.getY() == getVirtumon(indexVirtumon).getY()){
+								battleStatus = indexVirtumon;
+							}
+						}
+						getVirtumon(indexVirtumon).setIsActive(false);
+					}
+					
+				}).start();
+			}
+		}
 	}
 }

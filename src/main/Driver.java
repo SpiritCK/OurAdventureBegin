@@ -1,12 +1,7 @@
 package main;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.*;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import battle.BattleView;
@@ -41,22 +36,30 @@ public class Driver {
 			@Override
 			public void run() {
 				while(fail == 0) {
-					while(!map.isBattle()) {
+					while(map.getBattle()==-1) {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
-					boolean check = (map.getPlayer().getX() == map.getVirtumon().getX() && map.getPlayer().getY() == map.getVirtumon().getY());
+					boolean check = (map.getPlayer().getX() == map.getVirtumon(map.getBattle()).getX() && map.getPlayer().getY() == map.getVirtumon(map.getBattle()).getY());
 					assert check;
-					JPanel battlePane = new BattleView(map.getPlayer(), map.getVirtumon());
+					BattleView battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
 					cards.add(battlePane, BATTLE);
 			        CardLayout cl = (CardLayout)(cards.getLayout());
 			        cl.show(cards, BATTLE);
 			        frame.pack();
-			        //ini diganti dengan ngecek apakah battle beres
-			        while(true);
+			        while(battlePane.getStatus() == 0) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+			        }
+					map.battleConfirmed(battlePane.getStatus());
+			        cards.remove(battlePane);
+			        cl.show(cards, MAP);
 				}
 			}
         	

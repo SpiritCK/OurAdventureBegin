@@ -55,7 +55,7 @@ public class BattleController implements ActionListener{
         player = _player;
         enemy = _enemy;
         btl = new Battle(view,player,enemy);
-        specialLimit = 3;
+        specialLimit = 5;
         cheatOn = false;
 		Action cheat = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
@@ -109,7 +109,7 @@ public class BattleController implements ActionListener{
                 locked = true;
                 timer = new Timer(1000, new ActionListener() {
                     public void actionPerformed(ActionEvent x) {
-                        int damage = (int) Math.round((player.getlevel() * 0.4 + 2) * 100 * player.getAttack() / (enemy.getDefense() * 50) + 2);
+                        //int damage = (int) Math.round((player.getlevel() * 0.4 + 2) * 100 * player.getAttack() / (enemy.getDefense() * 50) + 2);
                         btl.start(1);
                         view.repaint();
                     }
@@ -127,7 +127,7 @@ public class BattleController implements ActionListener{
                     timer = new Timer(1000, new ActionListener() {
                         public void actionPerformed(ActionEvent x) {
                             specialLimit--;
-                            int damage = (int) Math.round((player.getlevel() * 0.4 + 2) * 200 * player.getAttack() / (enemy.getDefense() * 50) + 2);
+                            //int damage = (int) Math.round((player.getlevel() * 0.4 + 2) * 200 * player.getAttack() / (enemy.getDefense() * 50) + 2);
                             btl.start(2);
                             view.repaint();
                         }

@@ -47,6 +47,7 @@ public class Battle {
         player = _player;
         enemy = _enemy;
         view = _view;
+        view.battleStatus = 0;
     }
     /**
      * Start battle.
@@ -54,7 +55,6 @@ public class Battle {
      */
     public void start(int cmd){
         if (player.getHp() > 0) {
-            int dmg = 0;
             commandp = cmd;
             commande = generateRandomAttack();
             shoutPlayer(commandp);
@@ -177,7 +177,7 @@ public class Battle {
                 dmg = (int) (Math.round((enemy.getLevel() * 0.4 + 2) * 100 * enemy.getDamage() / (player.getDefense() * 50) + 2));
                 break;
             case 2:
-                dmg = (int) (Math.round((enemy.getLevel() * 0.4 + 2) * 250 * enemy.getDamage() / (player.getDefense() * 50) + 2));
+                dmg = (int) (Math.round((enemy.getLevel() * 0.4 + 2) * 300 * enemy.getDamage() / (player.getDefense() * 50) + 2));
                 break;
         }
         player.incHp((-1) * dmg);
@@ -196,10 +196,10 @@ public class Battle {
         int dmg = 0;
         switch (attackNumber) {
             case 1:
-                dmg = (int) (Math.round((player.getlevel() * 0.4 + 2) * 100 * enemy.getDamage() / (player.getDefense() * 50) + 2));
+                dmg = (int) (Math.round((player.getlevel() * 0.4 + 2) * 100 * player.getAttack() / (enemy.getDefense() * 50) + 2));
                 break;
             case 2:
-                dmg = (int) (Math.round((player.getlevel() * 0.4 + 2) * 250 * enemy.getDamage() / (player.getDefense() * 50) + 2));
+                dmg = (int) (Math.round((player.getlevel() * 0.4 + 2) * 300 * player.getAttack() / (enemy.getDefense() * 50) + 2));
                 break;
         }
         enemy.incHp(-1*dmg);
@@ -215,12 +215,14 @@ public class Battle {
      */
     private void won() {
         view.addLog("Congratulation! you win");
+        view.battleStatus = 1;
     }
     /**
      * Menampilkan pesan kalah.
      */
     private void lose() {
         view.addLog("Aww, you're dead");
+        view.battleStatus = 2;
     }
     /**
      * Menagtur mekanisme penangkapan pokemon.
@@ -235,7 +237,7 @@ public class Battle {
                 if (hasilRandom <= percentageOfSuccess) {      //berhasil menangkap pokemon
                     player.addVirtumon(enemy);
                     view.addLog("GOTCHA!! Virtumon was caught");
-                    //Keluar dari battle
+                    view.battleStatus = 3;
                 }
                 else {		//gagal menngkap virtumon
                     view.addLog("Virtumon got away");

@@ -18,6 +18,9 @@ public class BattleView extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * karakter newline untuk battle log;
+	 */
     static final String newline = System.getProperty("line.separator");
     /**
      * label nama player.
@@ -63,6 +66,14 @@ public class BattleView extends JPanel{
      * tombol catch virtumon.
      */
     JTextArea battlelog;
+    /**
+     * status keberjalanan battle
+     * 0 : masih berjalan
+     * 1 : menang
+     * 2 : kalah
+     * 3 : berhasil di catch
+     */
+    int battleStatus;
     /**
      * Constructor.
      * @param p pemain.
@@ -156,10 +167,19 @@ public class BattleView extends JPanel{
         
         setVisible(true);
     }
-    
+    /**
+     * menambahkan text ke log
+     * @param text
+     */
     public void addLog(String text) {
         battlelog.append(text + newline);
         battlelog.setCaretPosition(battlelog.getDocument().getLength());
+    }
+    /**
+     * Memberi pesan hasil battle.
+     */
+    public int getStatus() {
+        return battleStatus;
     }
     
 
