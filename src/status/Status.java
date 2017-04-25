@@ -14,22 +14,71 @@ public class Status extends JPanel {
 	/**
 	 * data member model kelas status.
 	 */
-	Player model;
+	private Player model;
+	/**
+	 * label untuk sprite.
+	 */
 	JLabel sprite;
+	/**
+	 * label untuk tulisan "Nama".
+	 */
 	JLabel nama1;
+	/**
+	 * label untuk nama.
+	 */
 	JLabel nama2;
+	/**
+	 * label untuk tulisan "Level".
+	 */
 	JLabel level1;
+	/**
+	 * label untuk level.
+	 */
 	JLabel level2;
+	/**
+	 * label untuk tulisan "HP".
+	 */
 	JLabel hp1;
+	/**
+	 * HP bar.
+	 */
 	HealthBar hp2;
+	/**
+	 * label untuk tulisan "EXP".
+	 */
 	JLabel xp1;
+	/**
+	 * EXP bar.
+	 */
 	ExpBar xp2;
+	/**
+	 * label untuk tulisan "ATK".
+	 */
 	JLabel atk1;
+	/**
+	 * label untuk attack.
+	 */
 	JLabel atk2;
+	/**
+	 * label untuk tulisan "DEF".
+	 */
 	JLabel def1;
+	/**
+	 * label untuk defense.
+	 */
 	JLabel def2;
+	/**
+	 * tombol untuk menampilkan virtumon yang ditangkap.
+	 */
 	JButton caught;
+	/**
+	 * tombol untuk heal.
+	 */
 	JButton heal;
+	/**
+	 * penanda apakah caught virtumon diperlihatkan atau tidak.
+	 */
+	boolean showCaught;
 
 	/**
 	 * constructor.
@@ -37,10 +86,11 @@ public class Status extends JPanel {
 	public Status(Player p) {
 		super();
 		model = p;
+		showCaught = false;
         setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		sprite = new JLabel(new ImageIcon(model.getSprite().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
+		sprite = new JLabel(new ImageIcon(getModel().getSprite().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
@@ -55,7 +105,7 @@ public class Status extends JPanel {
 		c.ipady = 10;
 		add(nama1,c);
 		
-		nama2 = new JLabel(model.getName());
+		nama2 = new JLabel(getModel().getName());
 		c.gridx = 1;
 		c.gridy = 1;
 		add(nama2,c);
@@ -65,7 +115,7 @@ public class Status extends JPanel {
 		c.gridy = 2;
 		add(level1,c);
 		
-		level2 = new JLabel(new Integer(model.getlevel()).toString());
+		level2 = new JLabel(new Integer(getModel().getlevel()).toString());
 		c.gridx = 1;
 		c.gridy = 2;
 		add(level2,c);
@@ -75,7 +125,7 @@ public class Status extends JPanel {
 		c.gridy = 3;
 		add(hp1,c);
 		
-		hp2 = new HealthBar(model);
+		hp2 = new HealthBar(getModel());
 		c.gridx = 1;
 		c.gridy = 3;
 		c.ipady = 0;
@@ -89,7 +139,7 @@ public class Status extends JPanel {
 		c.fill = GridBagConstraints.NONE;
 		add(xp1,c);
 		
-		xp2 = new ExpBar(model);
+		xp2 = new ExpBar(getModel());
 		c.gridx = 1;
 		c.gridy = 4;
 		c.ipady = 0;
@@ -105,7 +155,7 @@ public class Status extends JPanel {
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(atk1,c);
 		
-		atk2 = new JLabel(new Integer(model.getAttack()).toString());
+		atk2 = new JLabel(new Integer(getModel().getAttack()).toString());
 		c.gridx = 1;
 		c.gridy = 5;
 		add(atk2,c);
@@ -115,7 +165,7 @@ public class Status extends JPanel {
 		c.gridy = 6;
 		add(def1,c);
 		
-		def2 = new JLabel(new Integer(model.getDefense()).toString());
+		def2 = new JLabel(new Integer(getModel().getDefense()).toString());
 		c.gridx = 1;
 		c.gridy = 6;
 		add(def2,c);
@@ -142,11 +192,32 @@ public class Status extends JPanel {
 		super.paintComponent(g);
 		hp2.repaint();
 		xp2.repaint();
-		sprite.setIcon(new ImageIcon(model.getSprite().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
-		level2.setText(new Integer(model.getlevel()).toString());
-		atk2.setText(new Integer(model.getAttack()).toString());
-		def2.setText(new Integer(model.getDefense()).toString());
-		nama2.setText(model.getName());
-		heal.setText("Medicine left : "+model.getMedicine());
+		sprite.setIcon(new ImageIcon(getModel().getSprite().getScaledInstance(50, 50, Image.SCALE_DEFAULT)));
+		level2.setText(new Integer(getModel().getlevel()).toString());
+		atk2.setText(new Integer(getModel().getAttack()).toString());
+		def2.setText(new Integer(getModel().getDefense()).toString());
+		nama2.setText(getModel().getName());
+		heal.setText("Medicine left : "+getModel().getMedicine());
+	}
+	/**
+	 * getter model
+	 * @return the model
+	 */
+	public Player getModel() {
+		return model;
+	}
+
+	/**
+	 * getter showCaught
+	 * @return showCaught
+	 */
+	public boolean getShowCaught() {
+		return showCaught;
+	}
+	/**
+	 * memberi tahu bahwa caught virtumon sudah ditampilkan
+	 */
+	public void shown() {
+		showCaught = false;
 	}
 }

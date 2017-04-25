@@ -2,6 +2,8 @@ package main;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Vector;
+
 import javax.swing.*;
 
 import battle.BattleView;
@@ -20,6 +22,7 @@ public class Driver {
     public static JFrame frame;
     static int fail;
     static MainMenu mainMenu;
+    static Status status;
     
 	public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
@@ -53,6 +56,39 @@ public class Driver {
 					CardLayout cl = (CardLayout) cards.getLayout();
 			        cl.show(cards, MAP);
 			        boolean alive = true;
+					Thread showCaught = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							while (true) {
+								while (!status.getShowCaught()) {
+									try {
+										Thread.sleep(100);
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
+								}
+								String caught = new String();
+								Vector<String> mentioned = new Vector<String>();
+								for(int i = 0;i < status.getModel().getVirtumon().size(); i++){
+									String namaVirtumon = new String(status.getModel().getVirtumon().elementAt(i).getNama());
+									if(!mentioned.contains(namaVirtumon)){
+										mentioned.add(namaVirtumon);
+										int jumlahVirtumon = status.getModel().getNumVirtumon(namaVirtumon);
+										caught = caught + "\n" + namaVirtumon + " : " + Integer.toString(jumlahVirtumon);
+									}
+								}
+								JOptionPane.showMessageDialog(Driver.frame, "Your caught virtumon :" + caught);
+								status.shown();
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+						}
+					});
+					showCaught.start();
 					while(fail == 0 && alive) {
 						while(map.getBattle()==-1) {
 							try {
@@ -67,6 +103,7 @@ public class Driver {
 						cards.add(battlePane, BATTLE);
 				        cl.show(cards, BATTLE);
 				        frame.pack();
+				        int curLv = map.getPlayer().getlevel();
 				        while(battlePane.getStatus() == 0) {
 							try {
 								Thread.sleep(100);
@@ -75,7 +112,12 @@ public class Driver {
 							}
 				        }
 				        if (battlePane.getStatus() == 1) {
-				        	JOptionPane.showMessageDialog(frame, "You win against "+map.getVirtumon(map.getBattle()).getNama());
+				        	if (map.getPlayer().getlevel() > curLv) {
+				        		JOptionPane.showMessageDialog(frame, "You win against "+map.getVirtumon(map.getBattle()).getNama()+"\nYour level is now : "+map.getPlayer().getlevel());
+					        }
+				        	else {
+				        		JOptionPane.showMessageDialog(frame, "You win against "+map.getVirtumon(map.getBattle()).getNama());
+				        	}
 				        }
 				        else if (battlePane.getStatus() == 2) {
 				        	JOptionPane.showMessageDialog(frame, "You're dead");
@@ -134,7 +176,7 @@ public class Driver {
 			c.ipadx = 0;
 			c.ipady = 0;
 			mapPane.add(map, c);
-			Status status = new Status(player);
+			status = new Status(player);
 			c.gridx = 1;
 			c.gridy = 0;
 			c.anchor = GridBagConstraints.FIRST_LINE_START;

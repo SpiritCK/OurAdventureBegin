@@ -25,7 +25,7 @@ public class Battle {
     private BattleView view;
     /**
      * command yang dipilih player.
-     * 1 = normal attack, 2 = special attack, 3 = defense, 4 catch.
+     * 1 = normal attack, 2 = special attack, 3 = defense, 4 catch, 5 = heal.
      */
     private int commandp;
     /**
