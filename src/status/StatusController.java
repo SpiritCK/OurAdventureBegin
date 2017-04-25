@@ -6,8 +6,15 @@ import javax.swing.*;
 import main.Driver;
 
 public class StatusController {
+	/**
+	 * data member view
+	 */
 	Status view;
 	
+	/**
+	 * Constructor.
+	 * @param m view
+	 */
 	public StatusController(Status m) {
 		view = m;
 		Action incAction = new AbstractAction() {
@@ -75,7 +82,14 @@ public class StatusController {
         bindKeyStroke(temp, "inc.xp", KeyStroke.getKeyStroke(KeyEvent.VK_G, 0), incXpAction);
         bindKeyStroke(temp, "dec.xp", KeyStroke.getKeyStroke(KeyEvent.VK_F, 0), decXpAction);
     }
-
+	
+	/**
+	 * mengikat tombol keyboard dengan aksi
+	 * @param condition kondisi utama
+	 * @param name nama aksi
+	 * @param keyStroke tombol yang ditekan
+	 * @param action aksi yang dijalankan
+	 */
     protected void bindKeyStroke(int condition, String name, KeyStroke keyStroke, Action action) {
     	view.getInputMap(condition).put(keyStroke, name);
         view.getActionMap().put(name, action);

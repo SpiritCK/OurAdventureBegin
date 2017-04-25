@@ -13,10 +13,6 @@ public class MapController {
 	 * data member kelas view map.
 	 */
 	Map view;
-	/**
-	 * penentu apakah controller bekerja atau tidak
-	 */
-	boolean locked;
 	
 	/**
 	 * constructor.
@@ -24,17 +20,14 @@ public class MapController {
 	 */
 	public MapController(Map m) {
 		view = m;
-		locked = false;
 		Action leftAction = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
             public void actionPerformed(ActionEvent e) {
-				if(!locked) {
-					System.out.println("left");
-	            	view.IncrementX(false);
-	            	view.repaint();
-				}
+				System.out.println("left");
+	            view.IncrementX(false);
+	            view.repaint();
             }
         };
         Action rightAction = new AbstractAction() {
@@ -42,11 +35,9 @@ public class MapController {
 			
             @Override
             public void actionPerformed(ActionEvent e) {
-				if(!locked) {
-					System.out.println("right");
-	            	view.IncrementX(true);
-	            	view.repaint();
-				}
+				System.out.println("right");
+	            view.IncrementX(true);
+	            view.repaint();
             }
         };
         Action upAction = new AbstractAction() {
@@ -54,11 +45,9 @@ public class MapController {
 			
             @Override
             public void actionPerformed(ActionEvent e) {
-				if(!locked) {
-					System.out.println("up");
-	            	view.IncrementY(false);
-	            	view.repaint();
-				}
+				System.out.println("up");
+	            view.IncrementY(false);
+	            view.repaint();
             }
         };
         Action downAction = new AbstractAction() {
@@ -66,11 +55,9 @@ public class MapController {
 			
 			@Override
             public void actionPerformed(ActionEvent e) {
-				if(!locked) {
-					System.out.println("down");
-					view.IncrementY(true);
-					view.repaint();
-				}
+				System.out.println("down");
+				view.IncrementY(true);
+				view.repaint();
             }
         };
         
@@ -93,16 +80,15 @@ public class MapController {
         bindKeyStroke(temp, "move.down", KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), downAction);
     }
 	
+	/**
+	 * mengikat tombol keyboard dengan aksi
+	 * @param condition kondisi utama
+	 * @param name nama aksi
+	 * @param keyStroke tombol yang ditekan
+	 * @param action aksi yang dijalankan
+	 */
     protected void bindKeyStroke(int condition, String name, KeyStroke keyStroke, Action action) {
     	view.getInputMap(condition).put(keyStroke, name);
         view.getActionMap().put(name, action);
-    }
-    
-    void lock() {
-    	locked = true;
-    }
-    
-    void unlock() {
-    	locked = false;
     }
 }

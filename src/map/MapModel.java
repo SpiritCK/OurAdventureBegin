@@ -32,11 +32,18 @@ public class MapModel{
 	 * matriks untuk menyimpan objek-objek yang ada dalam map
 	 */
     final Cell[][] terrainGrid;
-    
-    
-    
+    /**
+     * list virtumon yang tertangkap
+     */
     Vector<Virtumon> arrayOfVirtumon;
 
+    /**
+     * mengecek pakah ada virtumon pada posisi x,y
+     * @param x posisi absis
+     * @param y posisi ordinat
+     * @param tabel list virtumon
+     * @return true jika ada, false jika tidak
+     */
     private boolean isExist(int x, int y, Vector<Virtumon> tabel){
     	boolean found = false;
     	int indexVector = 0;
@@ -54,6 +61,10 @@ public class MapModel{
     	return found;
     }
     
+    /**
+     * method untuk memunculkan virtumon pada map
+     * @throws IOException
+     */
     void spawnVirtumon() throws IOException{
     	int x;
     	int y;
@@ -142,7 +153,12 @@ public class MapModel{
         String c;
         for (int i = 0; i < NUM_ROWS; i++) {
             c = in.next();
+            System.out.println(i+" : "+c);
             for (int j = 0; j < NUM_COLS; j++) {
+                System.out.println("    "+j+" : "+c.charAt(j));
+                if(c.charAt(j) == '-') {
+                	System.out.println("    ok");
+                }
 	           	switch(c.charAt(j)) {
 	           	case 'D' :
 	           		terrainGrid[i][j] = new Door();
@@ -158,6 +174,7 @@ public class MapModel{
             		break;
 	           	case '-' :
 	           		terrainGrid[i][j] = new Road();
+	           		break;
 	           	default :
 	           		assert false;
 	           	}

@@ -61,7 +61,9 @@ public class Map extends JPanel {
 		setPreferredSize(new Dimension(model.GRID_WIDTH*renderWidth, model.GRID_HEIGHT*renderHeight));
 		control = new MapController(this);
 		battleStatus = -1;
-		model.spawnVirtumon();
+		if (model.NUM_ROWS > 10) {
+			model.spawnVirtumon();
+		}
 		startThread();
     }
     
@@ -217,14 +219,28 @@ public class Map extends JPanel {
 		//isBattle();
 	}
 	
+	/**
+	 * getter player
+	 * @return player
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * getter virtumon ke-i
+	 * @param i indeks virtumon
+	 * @return virtumon indeks ke-i
+	 */
 	public Virtumon getVirtumon(int i) {
 		return model.arrayOfVirtumon.get(i);
 	}
 	
+	/**
+	 * mengecek apakah pada posisi x,y akan terjadi battle
+	 * @param x posisi absis
+	 * @param y posisi ordinat
+	 */
 	public void getBattle(int x, int y) {
 		boolean found = false;
 		int index = 0;
@@ -243,33 +259,62 @@ public class Map extends JPanel {
 		
 	}
 	
+	/**
+	 * mengecek apakah akan terjadi battle.
+	 * Jika tidak, battleStatus bernilai -1
+	 * Jika ya, battleStatus menandakan indeks virtumon yang dilawan
+	 * @return battleStatus
+	 */
 	public int getBattle() {
 		return battleStatus;
 	}
 	
+	/**
+	 * memberi tahu bahwa battle sudah selesai
+	 * @param result
+	 */
 	public void battleConfirmed(int result) {
-		if (result == 1) {
+		if (result == 1 || result == 3) {
 			model.arrayOfVirtumon.get(battleStatus).kill();
 		}
 		battleStatus = -1;
 	}
 	
+	/**
+	 * getter matrix of cell
+	 * @return terrainGrid model
+	 */
 	public Cell[][] getTerrain(){
 		return model.terrainGrid;
 	}
-	
+
+	/**
+	 * getter jumlah baris
+	 * @return NUM_ROWS model
+	 */
 	public int getNumRows(){
 		return model.NUM_ROWS;
 	}
-	
+
+	/**
+	 * getter jumlah kolom
+	 * @return NUM_COLS model
+	 */
 	public int getNumCols(){
 		return model.NUM_COLS;
 	}
-	
+
+	/**
+	 * mengubah nama player menjadi s
+	 * @param s nama player yang baru
+	 */
 	public void setNama(String s) {
 		player.setName(s);
 	}
-	
+
+	/**
+	 * memulai thread untuk menggerakan virtumon
+	 */
 	public void startThread(){
 		int startX,startY,endX,endY;
 		startX = player.getX() - ((renderWidth - 1) / 2) - threadProcessingRange;
