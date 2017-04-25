@@ -248,7 +248,7 @@ public class Map extends JPanel {
 	}
 	
 	public void battleConfirmed(int result) {
-		if (result == 1) {
+		if (result == 1 || result == 3) {
 			model.arrayOfVirtumon.get(battleStatus).kill();
 		}
 		battleStatus = -1;
