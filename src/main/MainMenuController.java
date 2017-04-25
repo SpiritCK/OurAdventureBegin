@@ -11,7 +11,12 @@ public class MainMenuController {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				m.play();
+				if (m.nama.getText().equals("") || m.nama.getText().equalsIgnoreCase("Enter your name")) {
+					m.warning();
+				}
+				else {
+					m.play();
+				}
 			}
 			
 		});

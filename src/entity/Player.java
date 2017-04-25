@@ -13,7 +13,7 @@ public class Player extends Entity {
 	/**
 	 * nama dari pemain.
 	 */
-	final String name;
+	String name;
 	/**
 	 * Posisi absis pemain.
 	 */
@@ -62,6 +62,10 @@ public class Player extends Entity {
 	 * Virtumon yang sudah ditangkap
 	 */
 	Vector<Virtumon> caught;
+	/**
+	 * jumlah medicine yang dimiliki player
+	 */
+	int num_of_medicine;
 	
 	/**
 	 * constructor.
@@ -80,6 +84,7 @@ public class Player extends Entity {
 		attack = 100;
 		defense = 70;
 		state = 0;
+		num_of_medicine = 5;		//nanti ganti jd 0
 		caught = new Vector<Virtumon>();
 
 		sprite = new Image[4];
@@ -172,6 +177,32 @@ public class Player extends Entity {
 	 */
 	public void setState(int s) {
 		state = s;
+	}
+	/**
+	 * mengubah nama player menjadi inName
+	 * @param inName
+	 */
+	public void setName(String inName) {
+		name = inName;
+	}
+	/**
+	 * menggunakan medicine untuk heal
+	 */
+	public void useMedicine() {
+		if (num_of_medicine > 0 && hp < maxHp) {
+			num_of_medicine--;
+			hp += maxHp/10;
+			if (hp > maxHp) {
+				hp = maxHp;
+			}
+		}
+	}
+	/**
+	 * mengambil jumlah medicine yang dimiliki player
+	 * @return num_of_medicine
+	 */
+	public int getMedicine() {
+		return num_of_medicine;
 	}
 	/**
 	 * Mengembalikan sprite pemain.

@@ -83,12 +83,23 @@ public class Battle {
                 view.addLog("You blocked an attack");
             }
             else
-            if (commandp == 4 && (commande == 1 || commande == 2)) {
-                catching();
-                attackToPlayerTimer(3000);
+            if (commandp == 4) {
+            	if (commande == 1 || commande == 2) {
+	                catching();
+	                attackToPlayerTimer(3000);
+	            }
+	            else {  //commandp == 4 && commande == 3
+	                catching();
+	            }
             }
-            else {  //commandp == 4 && commande == 3
-                catching();
+            else {	//commandp = 5
+            	if (commande == 1 || commande == 2) {
+	                heal();
+	                attackToPlayerTimer(3000);
+	            }
+	            else {  //commandp == 5 && commande == 3
+	                heal();
+	            }
             }
         }
     }
@@ -163,6 +174,9 @@ public class Battle {
                 break;
             case 4:
                 view.addLog("You throw Virtuball");
+                break;
+            case 5 :
+                view.addLog("You used medicine to heal yourself");
                 break;
         }
     }
@@ -241,6 +255,30 @@ public class Battle {
                 }
                 else {		//gagal menngkap virtumon
                     view.addLog("Virtumon got away");
+                }
+            }
+        });
+        timer.setInitialDelay(1500);
+        timer.setRepeats(false);
+        timer.start();
+    }
+    /**
+     * Menagtur mekanisme menggunakan medicine.
+     */
+    public void heal() {
+        timer = new Timer(1500, new ActionListener() {
+            public void actionPerformed(ActionEvent x) {
+                if (player.getMedicine() <= 0) {      //tidak ada medicine
+                    view.addLog("But you have used up all your medicine");
+                }
+                else if (player.getHp() == player.getMaxHp()){	//nyawa penuh
+                	view.addLog("But your HP is full");
+                }
+                else {		//gagal menngkap virtumon
+                	int curHP = player.getHp();
+                	player.useMedicine();
+                    view.addLog("Healed yourself HP + "+(player.getHp() - curHP));
+                    view.repaint();
                 }
             }
         });

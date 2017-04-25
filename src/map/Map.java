@@ -215,7 +215,7 @@ public class Map extends JPanel {
 		boolean found = false;
 		int index = 0;
 		while(!found && index<model.arrayOfVirtumon.size()){
-			if(model.arrayOfVirtumon.get(index).getX() == x && model.arrayOfVirtumon.get(index).getY() == y){
+			if(model.arrayOfVirtumon.get(index).getX() == x && model.arrayOfVirtumon.get(index).getY() == y && model.arrayOfVirtumon.get(index).isAlive()){
 				found = true;
 			}
 			else{
@@ -250,6 +250,10 @@ public class Map extends JPanel {
 	
 	public int getNumCols(){
 		return model.NUM_COLS;
+	}
+	
+	public void setNama(String s) {
+		player.setName(s);
 	}
 	
 	public void startThread(){
@@ -298,7 +302,7 @@ public class Map extends JPanel {
 						}
 						getVirtumon(indexVirtumon).setIsActive(true);
 						
-						while(getVirtumon(indexVirtumon).getX() >= startX && getVirtumon(indexVirtumon).getX() <= endX && getVirtumon(indexVirtumon).getY() >= startY && getVirtumon(indexVirtumon).getY() <= endY){
+						while(getVirtumon(indexVirtumon).getX() >= startX && getVirtumon(indexVirtumon).getX() <= endX && getVirtumon(indexVirtumon).getY() >= startY && getVirtumon(indexVirtumon).getY() <= endY && getVirtumon(indexVirtumon).isAlive()){
 							while(getBattle() != -1){Thread.yield();}
 							Random rand = new Random();
 							try{

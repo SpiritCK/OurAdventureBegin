@@ -28,6 +28,7 @@ public class Status extends JPanel {
 	JLabel atk2;
 	JLabel def1;
 	JLabel def2;
+	JButton heal;
 
 	/**
 	 * constructor.
@@ -42,6 +43,7 @@ public class Status extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
+		c.ipadx = 3;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		add(sprite,c);
 		
@@ -117,6 +119,13 @@ public class Status extends JPanel {
 		c.gridy = 6;
 		add(def2,c);
 		
+		heal = new JButton("Medicine left : 0");
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		add(heal, c);
+		
 		new StatusController(this);
 	}
 
@@ -132,5 +141,7 @@ public class Status extends JPanel {
 		level2.setText(new Integer(model.getlevel()).toString());
 		atk2.setText(new Integer(model.getAttack()).toString());
 		def2.setText(new Integer(model.getDefense()).toString());
+		nama2.setText(model.getName());
+		heal.setText("Medicine left : "+model.getMedicine());
 	}
 }

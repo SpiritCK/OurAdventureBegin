@@ -48,6 +48,14 @@ public class StatusController {
             	view.repaint();
             }
         };
+        view.heal.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				view.model.useMedicine();
+			}
+        	
+        });
         
         int temp = JComponent.WHEN_IN_FOCUSED_WINDOW;
 

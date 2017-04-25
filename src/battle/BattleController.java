@@ -155,12 +155,28 @@ public class BattleController implements ActionListener{
             }
             locked = false;
         }
-        else {
+        else 
+        if (action == 4){
             if (!locked) {
                 locked = true;
                 timer = new Timer(1000, new ActionListener() {
                     public void actionPerformed(ActionEvent x) {
                         btl.start(4);
+                        view.repaint();
+                    }
+                });
+                timer.setInitialDelay(1000);
+                timer.setRepeats(false);
+                timer.start();
+            }
+            locked = false;
+        }
+        else {
+        	if (!locked) {
+                locked = true;
+                timer = new Timer(1000, new ActionListener() {
+                    public void actionPerformed(ActionEvent x) {
+                        btl.start(5);
                         view.repaint();
                     }
                 });

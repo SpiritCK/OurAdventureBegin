@@ -19,6 +19,7 @@ public class Driver {
     static Map map;
     static JFrame frame;
     static int fail;
+    static MainMenu mainMenu;
     
 	public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
@@ -35,6 +36,20 @@ public class Driver {
 
 			@Override
 			public void run() {
+				while(mainMenu.status == 0) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (mainMenu.status == 2) {
+						JOptionPane.showMessageDialog(frame, "Please enter your name");
+						mainMenu.shown();
+					}
+				}
+				map.setNama(mainMenu.getNama());
+				CardLayout cl = (CardLayout) cards.getLayout();
+		        cl.show(cards, MAP);
 				while(fail == 0) {
 					while(map.getBattle()==-1) {
 						try {
@@ -47,7 +62,6 @@ public class Driver {
 					assert check;
 					BattleView battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
 					cards.add(battlePane, BATTLE);
-			        CardLayout cl = (CardLayout)(cards.getLayout());
 			        cl.show(cards, BATTLE);
 			        frame.pack();
 			        while(battlePane.getStatus() == 0) {
@@ -87,16 +101,14 @@ public class Driver {
 		GridBagConstraints c = new GridBagConstraints();
 		try {
 			//setup main menu
-			JPanel mainMenu = new MainMenu();
+			mainMenu = new MainMenu();
 			cards.add(mainMenu, MAIN);
 			
 			//setup map
 			JPanel mapPane = new JPanel();
 			mapPane.setLayout(new GridBagLayout());
-			Player player = new Player("Solid",100);
-			System.out.println("hahaha");
+			Player player = new Player("",100);
 			map = new Map(filename, player);
-			System.out.println("hihihi");
 			c.gridx = 0;
 			c.gridy = 0;
 			c.ipadx = 0;
@@ -117,6 +129,7 @@ public class Driver {
 			error.setVisible(true);
 			cards.add(error, MAP);
 			fail = 1;
+			assert false;
 		}
 		pane.add(cards);
 	}

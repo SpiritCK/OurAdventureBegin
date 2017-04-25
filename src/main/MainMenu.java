@@ -16,8 +16,11 @@ public class MainMenu extends JPanel {
 	JButton exit;
 	Image background;
 	JLabel logo;
+	JTextField nama;
+	int status;
 	
 	public MainMenu() throws IOException {
+		status = 0;
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(new GridBagLayout());
 		BufferedImage x = ImageIO.read(new File("logo.png"));
@@ -27,12 +30,17 @@ public class MainMenu extends JPanel {
 		c.ipady = 20;
 		c.fill = GridBagConstraints.NONE;
 		add(logo, c);
-		start = new JButton("Start Game");
+		nama = new JTextField();
+		nama.setPreferredSize(new Dimension(100, 20));
+		nama.setText("Enter your name");
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
+		add(nama, c);
+		start = new JButton("Start Game");
+		c.gridy = 2;
 		add(start, c);
 		exit = new JButton("Exit Game");
-		c.gridy = 2;
+		c.gridy = 3;
 		add(exit, c);
 		BufferedImage y = ImageIO.read(new File("background.png"));
 		background = y;
@@ -48,8 +56,19 @@ public class MainMenu extends JPanel {
 		exit.repaint();
 	}
 	
+	public String getNama() {
+		return nama.getText();
+	}
+	
 	void play() {
-		CardLayout cl = (CardLayout)(Driver.cards.getLayout());
-        cl.show(Driver.cards, Driver.MAP);
+		status = 1;
+	}
+	
+	void warning() {
+		status = 2;
+	}
+	
+	public void shown() {
+		status = 0;
 	}
 }

@@ -23,6 +23,10 @@ public class BattleView extends JPanel{
 	 */
     static final String newline = System.getProperty("line.separator");
     /**
+     * data member player.
+     */
+    Player player;
+    /**
      * label nama player.
      */
     JLabel playername;
@@ -63,6 +67,10 @@ public class BattleView extends JPanel{
      */
     JButton button4;
     /**
+     * tombol heal.
+     */
+    JButton button5;
+    /**
      * tombol catch virtumon.
      */
     JTextArea battlelog;
@@ -81,6 +89,7 @@ public class BattleView extends JPanel{
      */
     public BattleView(Player p, Virtumon v){
     	super();
+    	player = p;
         setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
     	
@@ -130,6 +139,7 @@ public class BattleView extends JPanel{
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 1;
+        c.ipady = 0;
         c.fill = GridBagConstraints.HORIZONTAL;
         add(button1, c);
         
@@ -137,7 +147,6 @@ public class BattleView extends JPanel{
         button2.setActionCommand("2");
         button2.addActionListener(control);
         c.gridy = 4;
-        c.ipady = 0;
         add(button2, c);
         
         button3 = new JButton("Defend");
@@ -152,6 +161,12 @@ public class BattleView extends JPanel{
         c.gridy = 6;
         add(button4, c);
         
+        button5 = new JButton("Heal : 0");
+        button5.setActionCommand("5");
+        button5.addActionListener(control);
+        c.gridy = 7;
+        add(button5, c);
+        
         battlelog = new JTextArea();
         battlelog.setEditable(false);
         battlelog.setWrapStyleWord(true);
@@ -161,7 +176,7 @@ public class BattleView extends JPanel{
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 3;
-        c.gridheight = 4;
+        c.gridheight = 5;
         c.fill = GridBagConstraints.BOTH;
         add(scrollPane, c);
         
@@ -192,5 +207,6 @@ public class BattleView extends JPanel{
         super.paintComponent(g);
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
+        button5.setText("Heal : "+player.getMedicine());
     }
 }
