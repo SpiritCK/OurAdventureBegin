@@ -61,26 +61,6 @@ public class MapController {
 				view.repaint();
             }
         };
-        Action teleport = new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-			
-			@Override
-            public void actionPerformed(ActionEvent e) {
-				if (cheatOn) {
-					view.getPlayer().setX(390);
-					view.getPlayer().setY(390);
-					view.repaint();
-				}
-            }
-        };
-		Action cheat = new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-            public void actionPerformed(ActionEvent e) {
-				cheatOn = true;
-            }
-        };
         
         int temp = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
@@ -99,9 +79,6 @@ public class MapController {
         bindKeyStroke(temp, "move.down", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), downAction);
         bindKeyStroke(temp, "move.down", KeyStroke.getKeyStroke(KeyEvent.VK_KP_DOWN, 0), downAction);
         bindKeyStroke(temp, "move.down", KeyStroke.getKeyStroke(KeyEvent.VK_S, 0), downAction);
-
-        bindKeyStroke(temp, "cheat.onoff", KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK), cheat);
-        bindKeyStroke(temp, "teleport", KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), teleport);
     }
 	
 	/**

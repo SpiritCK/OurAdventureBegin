@@ -322,4 +322,13 @@ public class Player extends Entity {
 	public void addScore(int change) {
 		score += change;
 	}
+	/**
+	 * Method cheat untuk teleport
+	 * @param _x posisi absis
+	 * @param _y posisi ordinat
+	 */
+	public void teleport(int _x, int _y) {
+		absis = _x;
+		ordinat = _y;
+	}
 }

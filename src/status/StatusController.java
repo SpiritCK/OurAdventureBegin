@@ -89,6 +89,17 @@ public class StatusController {
 			}
         	
         });
+        Action teleport = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				if (cheatOn) {
+					view.getModel().teleport(390, 390);
+					view.repaint();
+				}
+            }
+        };
         
         int temp = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
@@ -97,6 +108,7 @@ public class StatusController {
         bindKeyStroke(temp, "dec.hp", KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), decAction);
         bindKeyStroke(temp, "inc.xp", KeyStroke.getKeyStroke(KeyEvent.VK_G, 0), incXpAction);
         bindKeyStroke(temp, "dec.xp", KeyStroke.getKeyStroke(KeyEvent.VK_F, 0), decXpAction);
+        bindKeyStroke(temp, "teleport", KeyStroke.getKeyStroke(KeyEvent.VK_Q, 0), teleport);
     }
 	
 	/**
