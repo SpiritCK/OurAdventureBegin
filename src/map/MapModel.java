@@ -132,6 +132,11 @@ public class MapModel{
     	
     	arrayOfVirtumon = new Vector<Virtumon>();
     	
+    	x = 390;
+    	y = 390;
+    	Moltcuno m = new Moltcuno(x, y);
+		arrayOfVirtumon.add(m);
+    	
     	for(int i = 0; i<500; i++){
 	    	Random rand = new Random();
 	    	x = rand.nextInt(399);
@@ -171,7 +176,7 @@ public class MapModel{
 		    	}
 	    	}
 	    	else{
-	    		penentuJenisVirtumon = rand.nextInt(4) + 1;
+	    		penentuJenisVirtumon = rand.nextInt(3) + 1;
 	    		
 	    		switch(penentuJenisVirtumon){
 	    		case 1 :
@@ -179,10 +184,6 @@ public class MapModel{
 	    			arrayOfVirtumon.add(k);
 	    			break;
 	    		case 2 :
-	    			Moltcuno m = new Moltcuno(x, y);
-	    			arrayOfVirtumon.add(m);
-	    			break;
-	    		case 3 :
 	    			Pindrill p = new Pindrill(x, y);
 	    			arrayOfVirtumon.add(p);
 	    			break;
