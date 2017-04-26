@@ -106,7 +106,7 @@ public class MapModel{
     }
     /**
      * mengembalikan indeks medicine di posisi x dan y
-     * @return 
+     * @return indeks medicine
      */
     public int getIndexMedicine(int _x, int _y){
     	boolean found = false;
@@ -196,7 +196,7 @@ public class MapModel{
     
     /**
      * constructor
-     * @param nama file yang berisi data map.
+     * @param filename nama file yang berisi data map.
      * @throws IOException jika gagal membuka file.
      */
     public MapModel(File filename) throws IOException {

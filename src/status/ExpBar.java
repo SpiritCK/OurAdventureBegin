@@ -41,7 +41,7 @@ public class ExpBar extends JProgressBar {
 
 	/**
 	 * mengubah HP player.
-	 * @param perubahan hp player.
+	 * @param change perubahan hp player.
 	 */
 	public void change(int change) {
 		model.incExp(change);

@@ -142,7 +142,7 @@ public abstract class Virtumon extends Entity {
 	
 	/**
 	 * getter isAlive
-	 * @returnisAlive
+	 * @return isAlive
 	 */
 	public boolean isAlive(){
 		return alive;

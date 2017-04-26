@@ -12,7 +12,7 @@ public abstract class Entity {
 
 	/**
 	 * mengembalikkan nilai maksimum HP pemain.
-	 * @return
+	 * @return maxHp
 	 */
 	public int getMaxHp(){
 		return maxHp;

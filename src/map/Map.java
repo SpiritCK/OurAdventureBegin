@@ -52,7 +52,8 @@ public class Map extends JPanel {
 
 	/**
 	 * constructor.
-	 * @param file yang berisi map.
+	 * @param filename file yang berisi map.
+	 * @param p player
 	 * @throws IOException jika file gagal dibuka.
 	 */
     public Map(File filename, Player p) throws IOException {
