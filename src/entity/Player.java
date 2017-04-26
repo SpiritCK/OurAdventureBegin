@@ -299,7 +299,7 @@ public class Player extends Entity {
 		maxHp = newMaxHP;
 		hp = maxHp;
 		attack = (int) ((float)attack * 1.1);
-		defense += (int) ((float)defense * 1.1);
+		defense = (int) ((float)defense * 1.1);
 	}
 	/**
 	 * menambah virtumon ke dalam vector virtumon yang sudah ditangkap.
