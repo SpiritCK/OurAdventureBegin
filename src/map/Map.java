@@ -63,6 +63,7 @@ public class Map extends JPanel {
 		battleStatus = -1;
 		if (model.NUM_ROWS > 10) {
 			model.spawnVirtumon();
+			model.spawnMedicine();
 		}
 		startThread();
     }
@@ -78,6 +79,7 @@ public class Map extends JPanel {
 		player.setY(2);
 		player.setState(2);
 		model.spawnVirtumon();
+		model.spawnMedicine();
     }
     
     @Override
@@ -134,6 +136,14 @@ public class Map extends JPanel {
                 g.drawImage(p, (model.arrayOfVirtumon.get(i).getX() - startX)*rectWidth, (model.arrayOfVirtumon.get(i).getY() - startY)*rectHeight, this);
         	}
         }
+        for (int i = 0; i < model.arrayOfMedicine.size(); i++) {
+        	int tempX = model.arrayOfMedicine.get(i).getX();
+        	int tempY = model.arrayOfMedicine.get(i).getY();
+        	if (!model.arrayOfMedicine.get(i).isTaken() && tempX >=startX && tempX < startX + renderWidth && tempY>=startY && tempY<startY+renderHeight ) {
+        		Image p = model.arrayOfMedicine.get(i).render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
+                g.drawImage(p, (model.arrayOfMedicine.get(i).getX() - startX)*rectWidth, (model.arrayOfMedicine.get(i).getY() - startY)*rectHeight, this);
+        	}
+        }
         Image p = player.getSprite().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
         g.drawImage(p, (player.getX() - startX)*rectWidth, (player.getY() - startY)*rectHeight, this);
         //p = model.test.render().getScaledInstance(rectWidth, rectHeight, Image.SCALE_DEFAULT);
@@ -156,6 +166,10 @@ public class Map extends JPanel {
 	    	if (classXm.equals("Road") || classXm.equals("Door") || classXm.equals("Finish")) {
 	    		player.setX(player.getX()-1);
 	    	}
+		}
+		if(model.getIndexMedicine(player.getX(), player.getY())<model.arrayOfMedicine.size()){
+			player.addMedicine();
+			model.arrayOfMedicine.get(model.getIndexMedicine(player.getX(), player.getY())).setTaken(true);
 		}
 		if (inc) {
 			player.setState(2);
@@ -190,6 +204,10 @@ public class Map extends JPanel {
 	    	if (classYm.equals("Road") || classYm.equals("Door") || classYm.equals("Finish")) {
 	    		player.setY(player.getY()-1);
 	    	}
+		}
+		if(model.getIndexMedicine(player.getX(), player.getY())<model.arrayOfMedicine.size()){
+			player.addMedicine();
+			model.arrayOfMedicine.get(model.getIndexMedicine(player.getX(), player.getY())).setTaken(true);
 		}
 		if (inc) {
 			player.setState(0);
