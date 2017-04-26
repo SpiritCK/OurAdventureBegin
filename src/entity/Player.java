@@ -296,8 +296,8 @@ public class Player extends Entity {
 	public void levelUp(){
 		level++;
 		int newMaxHP = 40 + maxHp;
-		hp += newMaxHP - maxHp;
 		maxHp = newMaxHP;
+		hp = maxHp;
 		attack += 14;
 		defense += 7;
 	}
