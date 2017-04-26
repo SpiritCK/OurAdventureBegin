@@ -70,6 +70,10 @@ public class Player extends Entity {
 	 * jumlah medicine yang dimiliki player
 	 */
 	int num_of_medicine;
+	/**
+	 * total score yang didapat pemain
+	 */
+	int score;
 	
 	/**
 	 * constructor.
@@ -89,7 +93,8 @@ public class Player extends Entity {
 		attack = 100;
 		defense = 70;
 		state = 0;
-		num_of_medicine = 5;		//nanti ganti jd 0
+		num_of_medicine = 5;
+		score = 0;
 		caught = new Vector<Virtumon>();
 
 		sprite = new Image[4];
@@ -120,7 +125,8 @@ public class Player extends Entity {
 		attack = 100;
 		defense = 70;
 		state = 0;
-		num_of_medicine = 5;		//nanti ganti jd 0
+		num_of_medicine = 5;
+		score = 0;
 		caught = new Vector<Virtumon>();
 	}
 	
@@ -239,6 +245,10 @@ public class Player extends Entity {
 	public Image getSprite() {
 		return sprite[state];
 	}
+	/**
+	 * Mengembalikan battle sprite pemain.
+	 * @return battle sprite pemain
+	 */
 	public Image getBattleSprite() {
 		return battlesprite;
 	}
@@ -298,5 +308,18 @@ public class Player extends Entity {
 	public void addVirtumon(Virtumon V){
 		caught.add(V);
 	}
-	
+	/**
+	 * getter score
+	 * @return score
+	 */
+	public int getScore() {
+		return score;
+	}
+	/**
+	 * method untuk menambah jumlah score
+	 * @param change perubahan score
+	 */
+	public void addScore(int change) {
+		score += change;
+	}
 }

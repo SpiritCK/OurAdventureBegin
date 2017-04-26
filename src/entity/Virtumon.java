@@ -8,26 +8,90 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public abstract class Virtumon extends Entity {
+	/**
+	 * data gambar untuk Belra
+	 */
 	static Image belra;
+	/**
+	 * data gambar untuk Charwak
+	 */
 	static Image charwak;
+	/**
+	 * data gambar untuk Dugsect
+	 */
 	static Image dugsect;
+	/**
+	 * data gambar untuk Kadaix
+	 */
 	static Image kadaix;
+	/**
+	 * data gambar untuk Kingbat
+	 */
 	static Image kingbat;
+	/**
+	 * data gambar untuk Moltcuno
+	 */
 	static Image moltcuno;
+	/**
+	 * data gambar untuk Oddchu
+	 */
 	static Image oddchu;
+	/**
+	 * data gambar untuk Pindrill
+	 */
 	static Image pindrill;
+	/**
+	 * data gambar untuk Ratung
+	 */
 	static Image ratung;
+	/**
+	 * data gambar untuk Weehorn
+	 */
 	static Image weehorn;
+	/**
+	 * penanda apakah static data member sudah diisi
+	 */
 	static boolean rendered = false;
+	/**
+	 * nama virtumon
+	 */
 	String nama;
+	/**
+	 * damage virtumon
+	 */
 	int damage;
+	/**
+	 * defense virtumon
+	 */
 	int defense;
+	/**
+	 * posisi absis virtumon
+	 */
 	int absis;
+	/**
+	 * posisi ordinat virtumon
+	 */
 	int ordinat;
+	/**
+	 * level virtumon
+	 */
 	int level;
+	/**
+	 * penanda apakah virtumon hidup
+	 */
 	boolean alive;
+	/**
+	 * gambar virtumon
+	 */
 	Image tile;
+	/**
+	 * penanda apakah virtumon sedang berjalan
+	 */
 	boolean isActive;
+	/**
+	 * score yang didapat jika virtumon kalah
+	 */
+	int score;
 	
 	/**
 	 * Constructor class
@@ -76,14 +140,23 @@ public abstract class Virtumon extends Entity {
 		isActive = false;
 	}
 	
+	/**
+	 * getter isAlive
+	 * @returnisAlive
+	 */
 	public boolean isAlive(){
 		return alive;
 	}
-	
+	/**
+	 * method untuk membunuh virtumon
+	 */
 	public void kill() {
 		alive = false;
 	}
-	
+	/**
+	 * getter level
+	 * @return level
+	 */
 	public int getLevel() {
 		return level;
 	}
@@ -150,16 +223,34 @@ public abstract class Virtumon extends Entity {
 	public void setY(int _ordinat){
 		ordinat = _ordinat;
 	}
-	
+	/**
+	 * getter gambar virtumon
+	 * @return tile
+	 */
 	public Image render(){
 		return tile;
 	}
-	
+	/**
+	 * setter isAlive
+	 * @param input kondisi hidup virtumon
+	 */
 	public void setAlive(boolean input){
 		alive = input;
 	}
-	
+
+	/**
+	 * setter isActive
+	 * @param isActive kondisi aktif virtumon
+	 */
 	public void setIsActive(boolean isActive){
 		this.isActive = isActive;
+	}
+	
+	/**
+	 * getter score
+	 * @return score
+	 */
+	public int getScore() {
+		return score;
 	}
 }

@@ -23,22 +23,59 @@ public class Driver {
     static int fail;
     static MainMenu mainMenu;
     static Status status;
-    
-	public static void main(String[] args) {
-        // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                prepareGUI();
-                startCheck();
-            }
-        });
-    }
 	
+    public static String report(Player p) {
+    	String caught = new String();
+		Vector<String> mentioned = new Vector<String>();
+		for(int i = 0;i < status.getModel().getVirtumon().size(); i++){
+			String namaVirtumon = new String(status.getModel().getVirtumon().elementAt(i).getNama());
+			if(!mentioned.contains(namaVirtumon)){
+				mentioned.add(namaVirtumon);
+				int jumlahVirtumon = status.getModel().getNumVirtumon(namaVirtumon);
+				caught = caught + "\n  - " + namaVirtumon + " : " + Integer.toString(jumlahVirtumon);
+			}
+		}
+    	return caught;
+    }
+    
 	public static void startCheck() {
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
+				Thread showCaught = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						while (true) {
+							while (!status.getShowCaught()) {
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+							/*String caught = new String();
+							Vector<String> mentioned = new Vector<String>();
+							for(int i = 0;i < status.getModel().getVirtumon().size(); i++){
+								String namaVirtumon = new String(status.getModel().getVirtumon().elementAt(i).getNama());
+								if(!mentioned.contains(namaVirtumon)){
+									mentioned.add(namaVirtumon);
+									int jumlahVirtumon = status.getModel().getNumVirtumon(namaVirtumon);
+									caught = caught + "\n" + namaVirtumon + " : " + Integer.toString(jumlahVirtumon);
+								}
+							}*/
+							JOptionPane.showMessageDialog(Driver.frame, "Your caught virtumon :" + report(map.getPlayer()));
+							status.shown();
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				});
+				showCaught.start();
 				while(true) {
 					while(mainMenu.status == 0) {
 						try {
@@ -56,79 +93,58 @@ public class Driver {
 					CardLayout cl = (CardLayout) cards.getLayout();
 			        cl.show(cards, MAP);
 			        boolean alive = true;
-					Thread showCaught = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							while (true) {
-								while (!status.getShowCaught()) {
-									try {
-										Thread.sleep(100);
-									} catch (InterruptedException e) {
-										e.printStackTrace();
-									}
-								}
-								String caught = new String();
-								Vector<String> mentioned = new Vector<String>();
-								for(int i = 0;i < status.getModel().getVirtumon().size(); i++){
-									String namaVirtumon = new String(status.getModel().getVirtumon().elementAt(i).getNama());
-									if(!mentioned.contains(namaVirtumon)){
-										mentioned.add(namaVirtumon);
-										int jumlahVirtumon = status.getModel().getNumVirtumon(namaVirtumon);
-										caught = caught + "\n" + namaVirtumon + " : " + Integer.toString(jumlahVirtumon);
-									}
-								}
-								JOptionPane.showMessageDialog(Driver.frame, "Your caught virtumon :" + caught);
-								status.shown();
+					while(fail == 0 && alive && !map.getFinish()) {
+						while(map.getBattle()==-1 && !map.getFinish()) {
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						if (!map.getFinish()) {		//ada battle
+							boolean check = (map.getPlayer().getX() == map.getVirtumon(map.getBattle()).getX() && map.getPlayer().getY() == map.getVirtumon(map.getBattle()).getY());
+							assert check;
+							BattleView battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
+							cards.add(battlePane, BATTLE);
+					        cl.show(cards, BATTLE);
+					        frame.pack();
+					        int curLv = map.getPlayer().getlevel();
+					        while(battlePane.getStatus() == 0) {
 								try {
 									Thread.sleep(100);
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 								}
-							}
-						}
-					});
-					showCaught.start();
-					while(fail == 0 && alive) {
-						while(map.getBattle()==-1) {
-							try {
-								Thread.sleep(100);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-						}
-						boolean check = (map.getPlayer().getX() == map.getVirtumon(map.getBattle()).getX() && map.getPlayer().getY() == map.getVirtumon(map.getBattle()).getY());
-						assert check;
-						BattleView battlePane = new BattleView(map.getPlayer(), map.getVirtumon(map.getBattle()));
-						cards.add(battlePane, BATTLE);
-				        cl.show(cards, BATTLE);
-				        frame.pack();
-				        int curLv = map.getPlayer().getlevel();
-				        while(battlePane.getStatus() == 0) {
-							try {
-								Thread.sleep(100);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-				        }
-				        if (battlePane.getStatus() == 1) {
-				        	if (map.getPlayer().getlevel() > curLv) {
-				        		JOptionPane.showMessageDialog(frame, "You win against "+map.getVirtumon(map.getBattle()).getNama()+"\nYour level is now : "+map.getPlayer().getlevel());
 					        }
-				        	else {
-				        		JOptionPane.showMessageDialog(frame, "You win against "+map.getVirtumon(map.getBattle()).getNama());
-				        	}
-				        }
-				        else if (battlePane.getStatus() == 2) {
-				        	JOptionPane.showMessageDialog(frame, "You're dead");
-				        	alive = false;
-				        }
-				        else {
-				        	JOptionPane.showMessageDialog(frame, "Congratulation, you caught it!");
-				        }
-						map.battleConfirmed(battlePane.getStatus());
-				        cards.remove(battlePane);
-				        cl.show(cards, MAP);
+					        if (battlePane.getStatus() == 1) {
+					        	if (map.getPlayer().getlevel() > curLv) {
+					        		JOptionPane.showMessageDialog(frame, "You win against "+map.getVirtumon(map.getBattle()).getNama()+"\n"
+					        				+ "Your level is now : "+map.getPlayer().getlevel());
+						        }
+					        	else {
+					        		JOptionPane.showMessageDialog(frame, "You win against "+map.getVirtumon(map.getBattle()).getNama());
+					        	}
+					        }
+					        else if (battlePane.getStatus() == 2) {
+					        	JOptionPane.showMessageDialog(frame, "You're dead\n"
+					        			+ "Your caught virtumon : "+report(map.getPlayer())+"\n"
+					        			+ "Final score : "+map.getPlayer().getScore());
+					        	alive = false;
+					        }
+					        else {
+					        	JOptionPane.showMessageDialog(frame, "Congratulation, you caught it!");
+					        }
+							map.battleConfirmed(battlePane.getStatus());
+					        cards.remove(battlePane);
+					        cl.show(cards, MAP);
+						}
+						else {
+							map.getPlayer().addScore(10);
+							JOptionPane.showMessageDialog(frame, "Congratulation, you have reached the finish\n"
+									+ "You got 10 bonus point for reaching the finish\n"
+									+ "Your caught virtumon : "+report(map.getPlayer())+"\n"
+									+ "Final score : "+map.getPlayer().getScore());
+						}
 					}
 					cl.show(cards, MAIN);
 					try {

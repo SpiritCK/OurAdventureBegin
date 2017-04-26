@@ -1,0 +1,244 @@
+
+--------------------------------------------------
+- Package: battle
+--------------------------------------------------
+
+Stats:
+    Total Classes: 15
+    Concrete Classes: 15
+    Abstract Classes: 0
+
+    Ca: 1
+    Ce: 2
+
+    A: 0
+    I: 0.67
+    D: 0.33
+
+Abstract Classes:
+
+Concrete Classes:
+    battle.Battle
+    battle.Battle$1
+    battle.Battle$2
+    battle.Battle$3
+    battle.Battle$4
+    battle.BattleController
+    battle.BattleController$1
+    battle.BattleController$2
+    battle.BattleController$3
+    battle.BattleController$4
+    battle.BattleController$5
+    battle.BattleController$6
+    battle.BattleController$7
+    battle.BattleController$8
+    battle.BattleView
+
+Depends Upon:
+    entity
+    status
+
+Used By:
+    main
+
+--------------------------------------------------
+- Package: entity
+--------------------------------------------------
+
+Stats:
+    Total Classes: 14
+    Concrete Classes: 12
+    Abstract Classes: 2
+
+    Ca: 4
+    Ce: 1
+
+    A: 0.14
+    I: 0.2
+    D: 0.66
+
+Abstract Classes:
+    entity.Entity
+    entity.Virtumon
+
+Concrete Classes:
+    entity.Belra
+    entity.Charwak
+    entity.Dugsect
+    entity.Kadaix
+    entity.Kingbat
+    entity.Moltcuno
+    entity.Oddchu
+    entity.Pindrill
+    entity.Player
+    entity.PlayerTest
+    entity.Ratung
+    entity.Weehorn
+
+Depends Upon:
+    org.junit
+
+Used By:
+    battle
+    main
+    map
+    status
+
+--------------------------------------------------
+- Package: main
+--------------------------------------------------
+
+Stats:
+    Total Classes: 9
+    Concrete Classes: 9
+    Abstract Classes: 0
+
+    Ca: 0
+    Ce: 6
+
+    A: 0
+    I: 1
+    D: 0
+
+Abstract Classes:
+
+Concrete Classes:
+    main.AllTests
+    main.Driver
+    main.Driver$1
+    main.Driver$2
+    main.Driver$2$1
+    main.MainMenu
+    main.MainMenuController
+    main.MainMenuController$1
+    main.MainMenuController$2
+
+Depends Upon:
+    battle
+    entity
+    map
+    org.junit.runner
+    org.junit.runners
+    status
+
+Used By:
+    Not used by any packages.
+
+--------------------------------------------------
+- Package: map
+--------------------------------------------------
+
+Stats:
+    Total Classes: 16
+    Concrete Classes: 15
+    Abstract Classes: 1
+
+    Ca: 1
+    Ce: 2
+
+    A: 0.06
+    I: 0.67
+    D: 0.27
+
+Abstract Classes:
+    map.Cell
+
+Concrete Classes:
+    map.Door
+    map.Finish
+    map.Forest
+    map.Map
+    map.Map$1
+    map.MapController
+    map.MapController$1
+    map.MapController$2
+    map.MapController$3
+    map.MapController$4
+    map.MapModel
+    map.MapTest
+    map.Medicine
+    map.River
+    map.Road
+
+Depends Upon:
+    entity
+    org.junit
+
+Used By:
+    main
+
+--------------------------------------------------
+- Package: org.junit
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: org.junit.runner
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: org.junit.runners
+--------------------------------------------------
+No stats available: package referenced, but not analyzed.
+
+--------------------------------------------------
+- Package: status
+--------------------------------------------------
+
+Stats:
+    Total Classes: 13
+    Concrete Classes: 13
+    Abstract Classes: 0
+
+    Ca: 2
+    Ce: 1
+
+    A: 0
+    I: 0.33
+    D: 0.67
+
+Abstract Classes:
+
+Concrete Classes:
+    status.ExpBar
+    status.ExpBar$1
+    status.HealthBar
+    status.HealthBar$1
+    status.Status
+    status.StatusController
+    status.StatusController$1
+    status.StatusController$2
+    status.StatusController$3
+    status.StatusController$4
+    status.StatusController$5
+    status.StatusController$6
+    status.StatusController$7
+
+Depends Upon:
+    entity
+
+Used By:
+    battle
+    main
+
+
+--------------------------------------------------
+- Package Dependency Cycles:
+--------------------------------------------------
+
+
+--------------------------------------------------
+- Summary:
+--------------------------------------------------
+
+Name, Class Count, Abstract Class Count, Ca, Ce, A, I, D, V:
+
+battle,15,0,1,2,0,0.67,0.33,1
+entity,14,2,4,1,0.14,0.2,0.66,1
+main,9,0,0,6,0,1,0,1
+map,16,1,1,2,0.06,0.67,0.27,1
+org.junit,0,0,2,0,0,0,1,1
+org.junit.runner,0,0,1,0,0,0,1,1
+org.junit.runners,0,0,1,0,0,0,1,1
+status,13,0,2,1,0,0.33,0.67,1

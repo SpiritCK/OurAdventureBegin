@@ -5,6 +5,7 @@ import java.io.*;
 public class Ratung extends Virtumon{
 	public Ratung(int x, int y) throws IOException{
 		super("Ratung", 120, 60, 60, x, y, 2);
+		score = 4;
 		tile = ratung;
 	}
 }

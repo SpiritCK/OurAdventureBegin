@@ -34,6 +34,10 @@ public class Map extends JPanel {
 	 */
 	int battleStatus;
 	/**
+	 * status selesainya permainan
+	 */
+	boolean finishStatus;
+	/**
 	 * lebar map yang dirender.
 	 */
 	final int renderWidth = 19;
@@ -61,6 +65,7 @@ public class Map extends JPanel {
 		setPreferredSize(new Dimension(model.GRID_WIDTH*renderWidth, model.GRID_HEIGHT*renderHeight));
 		control = new MapController(this);
 		battleStatus = -1;
+		finishStatus = false;
 		if (model.NUM_ROWS > 10) {
 			model.spawnVirtumon();
 			model.spawnMedicine();
@@ -74,6 +79,7 @@ public class Map extends JPanel {
      */
     public void refresh() throws IOException {
 		battleStatus = -1;
+		finishStatus = false;
 		player.refresh();
 		player.setX(0);
 		player.setY(2);
@@ -159,12 +165,18 @@ public class Map extends JPanel {
 	    	String classXp = model.terrainGrid[player.getY()][player.getX()+1].getClass().getSimpleName();
 	    	if (classXp.equals("Road") || classXp.equals("Door") || classXp.equals("Finish")) {
 	    		player.setX(player.getX()+1);
+	    		if (classXp.equals("Finish")) {
+	    			finishStatus = true;
+	    		}
 	    	}
 		}
 		else if (!inc && (player.getX() > 0)) {
 	    	String classXm = model.terrainGrid[player.getY()][player.getX()-1].getClass().getSimpleName();
 	    	if (classXm.equals("Road") || classXm.equals("Door") || classXm.equals("Finish")) {
 	    		player.setX(player.getX()-1);
+	    		if (classXm.equals("Finish")) {
+	    			finishStatus = true;
+	    		}
 	    	}
 		}
 		if(model.getIndexMedicine(player.getX(), player.getY())<model.arrayOfMedicine.size()){
@@ -197,12 +209,18 @@ public class Map extends JPanel {
 	    	String classYp = model.terrainGrid[player.getY()+1][player.getX()].getClass().getSimpleName();
 	    	if (classYp.equals("Road") || classYp.equals("Door") || classYp.equals("Finish")) {
 	    		player.setY(player.getY()+1);
+	    		if (classYp.equals("Finish")) {
+	    			finishStatus = true;
+	    		}
 			}
 		}
 		else if (!inc && (player.getY() > 0)) {
 	    	String classYm = model.terrainGrid[player.getY()-1][player.getX()].getClass().getSimpleName();
 	    	if (classYm.equals("Road") || classYm.equals("Door") || classYm.equals("Finish")) {
 	    		player.setY(player.getY()-1);
+	    		if (classYm.equals("Finish")) {
+	    			finishStatus = true;
+	    		}
 	    	}
 		}
 		if(model.getIndexMedicine(player.getX(), player.getY())<model.arrayOfMedicine.size()){
@@ -284,6 +302,10 @@ public class Map extends JPanel {
 	public void battleConfirmed(int result) {
 		if (result == 1 || result == 3) {
 			model.arrayOfVirtumon.get(battleStatus).kill();
+			player.addScore(model.arrayOfVirtumon.get(battleStatus).getScore());
+			if (result == 3) {
+				player.addScore(2);
+			}
 		}
 		battleStatus = -1;
 	}
@@ -318,6 +340,10 @@ public class Map extends JPanel {
 	 */
 	public void setNama(String s) {
 		player.setName(s);
+	}
+	
+	public boolean getFinish() {
+		return finishStatus;
 	}
 
 	/**

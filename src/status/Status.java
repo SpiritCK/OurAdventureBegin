@@ -68,6 +68,14 @@ public class Status extends JPanel {
 	 */
 	JLabel def2;
 	/**
+	 * label untuk tulisan "Score".
+	 */
+	JLabel score1;
+	/**
+	 * label untuk score.
+	 */
+	JLabel score2;
+	/**
 	 * tombol untuk menampilkan virtumon yang ditangkap.
 	 */
 	JButton caught;
@@ -170,15 +178,25 @@ public class Status extends JPanel {
 		c.gridy = 6;
 		add(def2,c);
 		
-		caught = new JButton("Caught Virtumon");
+		score1 = new JLabel("Score: ");
 		c.gridx = 0;
 		c.gridy = 7;
+		add(score1,c);
+		
+		score2 = new JLabel(new Integer(getModel().getScore()).toString());
+		c.gridx = 1;
+		c.gridy = 7;
+		add(score2,c);
+		
+		caught = new JButton("Caught Virtumon");
+		c.gridx = 0;
+		c.gridy = 8;
 		c.gridwidth = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		add(caught, c);
 		
 		heal = new JButton("Medicine left : 0");
-		c.gridy = 8;
+		c.gridy = 9;
 		add(heal, c);
 		
 		new StatusController(this);
@@ -198,6 +216,7 @@ public class Status extends JPanel {
 		def2.setText(new Integer(getModel().getDefense()).toString());
 		nama2.setText(getModel().getName());
 		heal.setText("Medicine left : "+getModel().getMedicine());
+		score2.setText(new Integer(getModel().getScore()).toString());
 	}
 	/**
 	 * getter model
