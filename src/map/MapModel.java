@@ -33,36 +33,96 @@ public class MapModel{
 	 */
     final Cell[][] terrainGrid;
     /**
-     * list virtumon yang tertangkap
+     * list virtumon di map
      */
     Vector<Virtumon> arrayOfVirtumon;
+    /**
+     * list medicine di map
+     */
+    Vector<Medicine> arrayOfMedicine;
 
     /**
-     * mengecek pakah ada virtumon pada posisi x,y
+     * mengecek pakah ada virtumon atau medicine pada posisi x,y
      * @param x posisi absis
      * @param y posisi ordinat
-     * @param tabel list virtumon
      * @return true jika ada, false jika tidak
      */
-    private boolean isExist(int x, int y, Vector<Virtumon> tabel){
+    private boolean isExist(int x, int y){
     	boolean found = false;
-    	int indexVector = 0;
-    	if(!tabel.isEmpty()){
-    		while(indexVector<tabel.size() && !found){
-    			if(tabel.get(indexVector).getX() == x && tabel.get(indexVector).getY() == y){
+    	int indexVectorVirtumon = 0;
+    	int indexVectorMedicine = 0;
+    	
+    	if(!arrayOfMedicine.isEmpty()){
+    		while(indexVectorMedicine<arrayOfMedicine.size() && !found){
+    			if(arrayOfMedicine.get(indexVectorMedicine).getX() == x && arrayOfMedicine.get(indexVectorMedicine).getY() == y){
     				found = true;
     			}
     			else{
-    				indexVector++;
+    				indexVectorMedicine++;
     			}
     		}
     	}
     	
+    	
+    	
+    	if(!found){
+    		if(!arrayOfVirtumon.isEmpty()){
+        		while(indexVectorVirtumon<arrayOfVirtumon.size() && !found){
+        			if(arrayOfVirtumon.get(indexVectorVirtumon).getX() == x && arrayOfVirtumon.get(indexVectorVirtumon).getY() == y){
+        				found = true;
+        			}
+        			else{
+        				indexVectorVirtumon++;
+        			}
+        		}
+        	}
+    	}
+    	
     	return found;
     }
-    
     /**
-     * method untuk memunculkan virtumon pada map
+     * Merandom posisi medicine di map
+     * @throws IOException
+     */
+    void spawnMedicine() throws IOException{
+    	int x;
+    	int y;
+    	
+    	arrayOfMedicine = new Vector<Medicine>();
+    	
+    	for(int i = 0; i<200; i++){
+    		Random rand = new Random();
+    		x = rand.nextInt(399);
+    		y = rand.nextInt(399);
+    		
+    		while(!((x!=0 || y!=0) && terrainGrid[y][x].getClass().getSimpleName().equals("Road") && !isExist(x, y))){
+    			x = rand.nextInt(399);
+        		y = rand.nextInt(399);
+    		}
+    		
+    		Medicine m = new Medicine(x, y);
+    		arrayOfMedicine.add(m);
+    	}
+    }
+    /**
+     * mengembalikan indeks medicine di posisi x dan y
+     * @return 
+     */
+    public int getIndexMedicine(int _x, int _y){
+    	boolean found = false;
+    	int index = 0;
+    	while(!found && index<arrayOfMedicine.size()){
+    		if(arrayOfMedicine.get(index).getX() == _x && arrayOfMedicine.get(index).getY() == _y){
+    			found = true;
+    		}
+    		else{
+    			index++;
+    		}
+    	}
+    	return index;
+    }
+    /**
+     * merandom posisi virtumon di map
      * @throws IOException
      */
     void spawnVirtumon() throws IOException{
@@ -77,7 +137,7 @@ public class MapModel{
 	    	x = rand.nextInt(399);
 	    	y = rand.nextInt(399);
 	    	
-	    	while(!((x!=0 || y!=0) && terrainGrid[y][x].getClass().getSimpleName().equals("Road") && !isExist(x, y, arrayOfVirtumon))){
+	    	while(!((x!=0 || y!=0) && terrainGrid[y][x].getClass().getSimpleName().equals("Road") && !isExist(x, y))){
 	    		x = rand.nextInt(399);
 	    		y = rand.nextInt(399);
 	    	}
@@ -177,6 +237,7 @@ public class MapModel{
         }
         in.close();
     	arrayOfVirtumon = new Vector<Virtumon>();
+    	arrayOfMedicine = new Vector<Medicine>();
     }
 
 }

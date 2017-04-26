@@ -208,6 +208,12 @@ public class Player extends Entity {
 		name = inName;
 	}
 	/**
+	 * menambah medicine
+	 */
+	public void addMedicine(){
+		num_of_medicine++;
+	}
+	/**
 	 * menggunakan medicine untuk heal
 	 */
 	public void useMedicine() {
