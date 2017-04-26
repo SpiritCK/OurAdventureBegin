@@ -291,15 +291,15 @@ public class Player extends Entity {
 	}
 	/**
 	 * menambah level pemain.
-	 * menambah maxHP pemain sebanyak 10%
+	 * menambah maxHP pemain sebanyak 15%
 	 */
 	public void levelUp(){
 		level++;
-		int newMaxHP = 40 + maxHp;
+		int newMaxHP = (int) ((float)maxHp * 1.15);
 		maxHp = newMaxHP;
 		hp = maxHp;
-		attack += 14;
-		defense += 7;
+		attack = (int) ((float)attack * 1.1);
+		defense += (int) ((float)defense * 1.1);
 	}
 	/**
 	 * menambah virtumon ke dalam vector virtumon yang sudah ditangkap.

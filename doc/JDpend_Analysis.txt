@@ -89,8 +89,8 @@ Used By:
 --------------------------------------------------
 
 Stats:
-    Total Classes: 9
-    Concrete Classes: 9
+    Total Classes: 11
+    Concrete Classes: 11
     Abstract Classes: 0
 
     Ca: 0
@@ -106,12 +106,14 @@ Concrete Classes:
     main.AllTests
     main.Driver
     main.Driver$1
-    main.Driver$2
-    main.Driver$2$1
+    main.Driver$1$1
+    main.Main
+    main.Main$1
     main.MainMenu
     main.MainMenuController
     main.MainMenuController$1
     main.MainMenuController$2
+    main.MainMenuController$3
 
 Depends Upon:
     battle
@@ -129,8 +131,8 @@ Used By:
 --------------------------------------------------
 
 Stats:
-    Total Classes: 16
-    Concrete Classes: 15
+    Total Classes: 18
+    Concrete Classes: 17
     Abstract Classes: 1
 
     Ca: 1
@@ -138,7 +140,7 @@ Stats:
 
     A: 0.06
     I: 0.67
-    D: 0.27
+    D: 0.28
 
 Abstract Classes:
     map.Cell
@@ -154,6 +156,8 @@ Concrete Classes:
     map.MapController$2
     map.MapController$3
     map.MapController$4
+    map.MapController$5
+    map.MapController$6
     map.MapModel
     map.MapTest
     map.Medicine
@@ -236,8 +240,8 @@ Name, Class Count, Abstract Class Count, Ca, Ce, A, I, D, V:
 
 battle,15,0,1,2,0,0.67,0.33,1
 entity,14,2,4,1,0.14,0.2,0.66,1
-main,9,0,0,6,0,1,0,1
-map,16,1,1,2,0.06,0.67,0.27,1
+main,11,0,0,6,0,1,0,1
+map,18,1,1,2,0.06,0.67,0.28,1
 org.junit,0,0,2,0,0,0,1,1
 org.junit.runner,0,0,1,0,0,0,1,1
 org.junit.runners,0,0,1,0,0,0,1,1

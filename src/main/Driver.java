@@ -87,6 +87,10 @@ public class Driver {
 							JOptionPane.showMessageDialog(frame, "Please enter your name");
 							mainMenu.shown();
 						}
+						else if (mainMenu.status == 3) {
+							JOptionPane.showMessageDialog(frame, "Warning : input name max 10 character");
+							mainMenu.shown();
+						}
 					}
 					mainMenu.shown();
 					map.setNama(mainMenu.getNama());

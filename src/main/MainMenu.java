@@ -68,6 +68,10 @@ public class MainMenu extends JPanel {
 		status = 2;
 	}
 	
+	void tooLong() {
+		status = 3;
+	}
+	
 	public void shown() {
 		status = 0;
 	}

@@ -21,6 +21,9 @@ public class MainMenuController {
 				if (m.nama.getText().equals("") || m.nama.getText().equalsIgnoreCase("Enter your name")) {
 					m.warning();
 				}
+				else if (m.nama.getText().length() > 10){
+					m.tooLong();
+				}
 				else {
 					m.play();
 				}
@@ -41,8 +44,11 @@ public class MainMenuController {
 			
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if (m.nama.getText().equals("") || m.nama.getText().equalsIgnoreCase("Enter your name")) {
+				if (m.nama.getText().equals("") || m.nama.getText().equalsIgnoreCase("Enter your name")) {
 					m.warning();
+				}
+				else if (m.nama.getText().length() > 10){
+					m.tooLong();
 				}
 				else {
 					m.play();
