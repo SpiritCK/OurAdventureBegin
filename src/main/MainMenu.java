@@ -23,7 +23,7 @@ public class MainMenu extends JPanel {
 		status = 0;
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(new GridBagLayout());
-		BufferedImage x = ImageIO.read(new File("logo.png"));
+		BufferedImage x = ImageIO.read(new File("data/logo.png"));
 		logo = new JLabel(new ImageIcon(((Image) x).getScaledInstance(319, 154, Image.SCALE_DEFAULT)));
 		c.gridx = 0;
 		c.gridy = 0;
@@ -42,7 +42,7 @@ public class MainMenu extends JPanel {
 		exit = new JButton("Exit Game");
 		c.gridy = 3;
 		add(exit, c);
-		BufferedImage y = ImageIO.read(new File("background.png"));
+		BufferedImage y = ImageIO.read(new File("data/background.png"));
 		background = y;
 		new MainMenuController(this);
 	}

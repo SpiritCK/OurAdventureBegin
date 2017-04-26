@@ -47,15 +47,15 @@ public abstract class Cell {
 	public Cell() throws IOException {
 		if (!rendered) {
 			rendered = true;
-			BufferedImage a = ImageIO.read(new File("door.png"));
+			BufferedImage a = ImageIO.read(new File("data/door.png"));
 			door = a;
-			BufferedImage b = ImageIO.read(new File("finish.png"));
+			BufferedImage b = ImageIO.read(new File("data/finish.png"));
 			finish = b;
-			BufferedImage c = ImageIO.read(new File("forest.png"));
+			BufferedImage c = ImageIO.read(new File("data/forest.png"));
 			forest = c;
-			BufferedImage d = ImageIO.read(new File("river.png"));
+			BufferedImage d = ImageIO.read(new File("data/river.png"));
 			river = d;
-			BufferedImage e = ImageIO.read(new File("road.png"));
+			BufferedImage e = ImageIO.read(new File("data/road.png"));
 			road = e;
 		}
 	}

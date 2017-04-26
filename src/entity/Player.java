@@ -99,16 +99,16 @@ public class Player extends Entity {
 
 		sprite = new Image[4];
 		BufferedImage[] x = new BufferedImage[4];
-		x[0] = ImageIO.read(new File("playerdown.png"));
+		x[0] = ImageIO.read(new File("data/playerdown.png"));
 		sprite[0] = x[0];
-		x[1] = ImageIO.read(new File("playerleft.png"));
+		x[1] = ImageIO.read(new File("data/playerleft.png"));
 		sprite[1] = x[1];
-		x[2] = ImageIO.read(new File("playerright.png"));
+		x[2] = ImageIO.read(new File("data/playerright.png"));
 		sprite[2] = x[2];
-		x[3] = ImageIO.read(new File("playerup.png"));
+		x[3] = ImageIO.read(new File("data/playerup.png"));
 		sprite[3] = x[3];
 
-		BufferedImage y = ImageIO.read(new File("playerbattle.png"));
+		BufferedImage y = ImageIO.read(new File("data/playerbattle.png"));
 		battlesprite = y;
 	}
 	/**

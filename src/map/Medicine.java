@@ -12,6 +12,10 @@ import javax.imageio.ImageIO;
  */
 public class Medicine {
 	/**
+	 * static data member untuk gambar medicine
+	 */
+	static Image medicine;
+	/**
 	 * sprite untuk kelas medicine.
 	 */
 	Image sprite;
@@ -34,8 +38,11 @@ public class Medicine {
 	 * @throws IOException jika file gagal dibuka.
 	 */
 	public Medicine(int _x, int _y) throws IOException {
-		BufferedImage temp = ImageIO.read(new File("medicine.png"));
-		sprite = temp;
+		if (medicine == null) {
+			BufferedImage temp = ImageIO.read(new File("data/medicine.png"));
+			medicine = temp;
+		}
+		sprite = medicine;
 		absis = _x;
 		ordinat = _y;
 		taken = false;

@@ -116,25 +116,25 @@ public abstract class Virtumon extends Entity {
 		alive = true;
 		if (!rendered) {
 			rendered = true;
-			BufferedImage a = ImageIO.read(new File("belra.png"));
+			BufferedImage a = ImageIO.read(new File("data/belra.png"));
 			belra = a;
-			BufferedImage b = ImageIO.read(new File("charwak.png"));
+			BufferedImage b = ImageIO.read(new File("data/charwak.png"));
 			charwak = b;
-			BufferedImage c = ImageIO.read(new File("dugsect.png"));
+			BufferedImage c = ImageIO.read(new File("data/dugsect.png"));
 			dugsect = c;
-			BufferedImage d = ImageIO.read(new File("kadaix.png"));
+			BufferedImage d = ImageIO.read(new File("data/kadaix.png"));
 			kadaix = d;
-			BufferedImage e = ImageIO.read(new File("kingbat.png"));
+			BufferedImage e = ImageIO.read(new File("data/kingbat.png"));
 			kingbat = e;
-			BufferedImage f = ImageIO.read(new File("moltcuno.png"));
+			BufferedImage f = ImageIO.read(new File("data/moltcuno.png"));
 			moltcuno = f;
-			BufferedImage g = ImageIO.read(new File("oddchu.png"));
+			BufferedImage g = ImageIO.read(new File("data/oddchu.png"));
 			oddchu = g;
-			BufferedImage h = ImageIO.read(new File("pindrill.png"));
+			BufferedImage h = ImageIO.read(new File("data/pindrill.png"));
 			pindrill = h;
-			BufferedImage i = ImageIO.read(new File("ratung.png"));
+			BufferedImage i = ImageIO.read(new File("data/ratung.png"));
 			ratung = i;
-			BufferedImage j = ImageIO.read(new File("weehorn.png"));
+			BufferedImage j = ImageIO.read(new File("data/weehorn.png"));
 			weehorn = j;
 		}
 		isActive = false;

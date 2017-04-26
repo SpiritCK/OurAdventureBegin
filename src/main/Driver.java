@@ -160,7 +160,7 @@ public class Driver {
 	
 	public static void prepareGUI() {
 		//Create and set up the window.
-		frame = new JFrame("Game");
+		frame = new JFrame("Solid Adventure : Catch All Virtumon");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //Create and set up the content pane.
@@ -184,7 +184,7 @@ public class Driver {
 			JPanel mapPane = new JPanel();
 			mapPane.setLayout(new GridBagLayout());
 			Player player = new Player("",100);
-			File filename = new File("map.txt");
+			File filename = new File("data/map.txt");
 			GridBagConstraints c = new GridBagConstraints();
 			map = new Map(filename, player);
 			c.gridx = 0;
