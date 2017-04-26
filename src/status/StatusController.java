@@ -95,7 +95,7 @@ public class StatusController {
 			@Override
             public void actionPerformed(ActionEvent e) {
 				if (cheatOn) {
-					view.getModel().teleport(390, 390);
+					view.getModel().teleport(385, 385);
 					view.repaint();
 				}
             }
