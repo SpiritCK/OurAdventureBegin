@@ -87,6 +87,7 @@ public class Status extends JPanel {
 	 * penanda apakah caught virtumon diperlihatkan atau tidak.
 	 */
 	boolean showCaught;
+	boolean teleport;
 
 	/**
 	 * constructor.
@@ -95,6 +96,7 @@ public class Status extends JPanel {
 		super();
 		model = p;
 		showCaught = false;
+		teleport = false;
         setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
@@ -238,5 +240,13 @@ public class Status extends JPanel {
 	 */
 	public void shown() {
 		showCaught = false;
+	}
+	
+	public boolean getTeleport() {
+		return teleport;
+	}
+	
+	public void setTeleport(boolean val) {
+		teleport = val;
 	}
 }

@@ -23,6 +23,33 @@ public class Driver {
     static int fail;
     static MainMenu mainMenu;
     static Status status;
+    
+    public static void teleport() {
+    	JTextField PosX = new JTextField(5);
+    	JTextField PosY = new JTextField(5);
+    	JPanel panel = new JPanel();
+    	panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+    	c.gridx = 0;
+    	c.gridy = 0;
+    	panel.add(new JLabel("X: "), c);
+    	c.gridx = 1;
+    	c.gridy = 0;
+    	panel.add(PosX, c);
+    	c.gridx = 0;
+    	c.gridy = 1;
+    	panel.add(new JLabel("Y: "), c);
+    	c.gridx = 1;
+    	c.gridy = 1;
+    	panel.add(PosY, c);
+    	int result = JOptionPane.showConfirmDialog(null, panel, "Enter teleport coordinate", JOptionPane.OK_CANCEL_OPTION);
+    	if (result == JOptionPane.OK_OPTION) {
+    		if (0 <= Integer.parseInt(PosX.getText()) && 0 <= Integer.parseInt(PosY.getText()) &&
+    				map.getNumCols() > Integer.parseInt(PosX.getText()) && map.getNumRows() > Integer.parseInt(PosY.getText())) {
+    			map.getPlayer().teleport(Integer.parseInt(PosX.getText()), Integer.parseInt(PosY.getText()));
+    		}
+    	}
+    }
 	
     public static String report(Player p) {
     	String caught = new String();
@@ -76,6 +103,24 @@ public class Driver {
 					}
 				});
 				showCaught.start();
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						while (true) {
+							while (!status.getTeleport()) {
+								try {
+									Thread.sleep(100);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+							Driver.teleport();
+							status.setTeleport(false);
+						}
+					}
+					
+				}).start();
 				while(true) {
 					while(mainMenu.status == 0) {
 						try {

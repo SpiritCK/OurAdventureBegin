@@ -448,6 +448,22 @@ public class Map extends JPanel {
 							if(player.getX() == getVirtumon(indexVirtumon).getX() && player.getY() == getVirtumon(indexVirtumon).getY()){
 								battleStatus = indexVirtumon;
 							}
+							startX = player.getX() - ((renderWidth - 1) / 2) - threadProcessingRange;
+							if(startX < 0){
+								startX = 0;
+							}
+							startY = player.getY() - ((renderHeight - 1) / 2) - threadProcessingRange;
+							if(startY < 0){
+								startY = 0;
+							}
+							endX = player.getX() + ((renderWidth - 1) / 2) + threadProcessingRange;
+							if(endX >= model.NUM_COLS){
+								endX = model.NUM_COLS - 1;
+							}
+							endY = player.getY() + ((renderHeight - 1) / 2) + threadProcessingRange;
+							if(endY >= model.NUM_ROWS){
+								endY = model.NUM_ROWS - 1;
+							}
 						}
 						getVirtumon(indexVirtumon).setIsActive(false);
 					}
